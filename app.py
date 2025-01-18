@@ -19,44 +19,125 @@ palm.configure(api_key=os.getenv('PALM_API_KEY'))
 # Streamlit page config
 st.set_page_config(
     page_title="AI Counterparty Risk Dashboard",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# Custom CSS
+# Custom CSS with dark theme
 st.markdown("""
     <style>
+    /* Dark theme colors */
+    :root {
+        --background-color: #1a1a1a;
+        --text-color: #ffffff;
+        --card-background: #2d2d2d;
+        --accent-color: #4d9fff;
+    }
+    
+    /* Main container */
+    .main {
+        background-color: var(--background-color);
+        color: var(--text-color);
+    }
+    
+    /* Custom sentiment badges */
+    .sentiment-badge {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 1.2em;
+        font-weight: 600;
+        text-align: center;
+        min-width: 120px;
+        margin-right: 10px;
+    }
+    
     .sentiment-positive {
-        color: #28a745;
-        font-weight: bold;
-        padding: 4px 12px;
-        border-radius: 15px;
-        background-color: #e6f4ea;
+        background-color: rgba(40, 167, 69, 0.2);
+        color: #2ecc71;
+        border: 1px solid #2ecc71;
     }
+    
     .sentiment-neutral {
-        color: #ffc107;
-        font-weight: bold;
-        padding: 4px 12px;
-        border-radius: 15px;
-        background-color: #fff8e6;
+        background-color: rgba(255, 193, 7, 0.2);
+        color: #ffd700;
+        border: 1px solid #ffd700;
     }
+    
     .sentiment-negative {
-        color: #dc3545;
-        font-weight: bold;
-        padding: 4px 12px;
-        border-radius: 15px;
-        background-color: #fce8e8;
+        background-color: rgba(220, 53, 69, 0.2);
+        color: #e74c3c;
+        border: 1px solid #e74c3c;
     }
+    
+    /* News card styling */
     .news-card {
-        padding: 1rem;
+        background-color: var(--card-background);
         border-radius: 10px;
-        border: 1px solid #e6e6e6;
-        margin: 10px 0;
+        padding: 20px;
+        margin: 15px 0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .metric-card {
-        background-color: white;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    
+    .news-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .news-title {
+        font-size: 1.1em;
+        font-weight: 500;
+        color: var(--text-color);
+        margin-bottom: 10px;
+    }
+    
+    .news-date {
+        color: #888;
+        font-size: 0.9em;
+    }
+    
+    /* Input container */
+    .input-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 30px;
+    }
+    
+    /* Section headers */
+    .section-header {
+        font-size: 1.5em;
+        font-weight: 600;
+        margin: 30px 0 20px 0;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--accent-color);
+    }
+    
+    /* Plotly chart backgrounds */
+    .js-plotly-plot .plotly .bg {
+        background-color: var(--card-background) !important;
+    }
+    
+    /* Add these new styles for the input and button container */
+    .stButton {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .stButton > button {
+        width: 100%;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem 1rem;
+    }
+    
+    /* Ensure the text input takes full width */
+    .stTextInput > div > div > input {
+        width: 100%;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -107,50 +188,80 @@ def create_sentiment_gauge(score):
         value=score,
         domain={'x': [0, 1], 'y': [0, 1]},
         gauge={
-            'axis': {'range': [0, 100], 'tickwidth': 1},
-            'bar': {'color': "darkblue"},
+            'axis': {'range': [0, 100], 'tickwidth': 1, 'tickcolor': "white"},
+            'bar': {'color': "#4d9fff"},
             'steps': [
-                {'range': [0, 33], 'color': "#e8f4f8"},
-                {'range': [33, 66], 'color': "#bfdde9"},
-                {'range': [66, 100], 'color': "#95c6da"}
+                {'range': [0, 33], 'color': "rgba(220, 53, 69, 0.3)"},
+                {'range': [33, 66], 'color': "rgba(255, 193, 7, 0.3)"},
+                {'range': [66, 100], 'color': "rgba(40, 167, 69, 0.3)"}
             ],
+            'threshold': {
+                'line': {'color': "white", 'width': 4},
+                'thickness': 0.75,
+                'value': score
+            }
         },
-        title={'text': "Overall Sentiment Score"}
+        title={'text': "Overall Sentiment Score", 'font': {'color': 'white', 'size': 24}}
     ))
-    fig.update_layout(height=250, margin=dict(l=10, r=10, t=50, b=10))
+    
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font={'color': 'white'},
+        height=300,
+        margin=dict(l=30, r=30, t=50, b=30)
+    )
     return fig
+
 
 def create_sentiment_distribution(sentiments):
     """Create a pie chart for sentiment distribution"""
     sentiment_counts = pd.Series(sentiments).value_counts()
-    colors = ['#28a745', '#ffc107', '#dc3545']
+    colors = ['#2ecc71', '#ffd700', '#e74c3c']
+    
     fig = go.Figure(data=[go.Pie(
         labels=sentiment_counts.index,
         values=sentiment_counts.values,
-        hole=.3,
-        marker_colors=colors
+        hole=.4,
+        marker_colors=colors,
+        textinfo='percent',
+        textfont_size=14,
+        textfont_color='white'
     )])
+    
     fig.update_layout(
-        title="Sentiment Distribution",
-        height=250,
-        margin=dict(l=10, r=10, t=50, b=10)
+        title={
+            'text': "Sentiment Distribution",
+            'font': {'size': 24, 'color': 'white'},
+            'y': 0.95
+        },
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        height=300,
+        margin=dict(l=30, r=30, t=50, b=30),
+        showlegend=True,
+        legend=dict(
+            font=dict(color='white'),
+            bgcolor='rgba(0,0,0,0)'
+        )
     )
     return fig
 
+
 def display_news_card(article, sentiment):
-    """Display a formatted news card"""
+    """Display a formatted news card with prominent sentiment"""
     sentiment_class = f"sentiment-{sentiment.lower()}"
     
     st.markdown(f"""
         <div class="news-card">
-            <h4>{article['title']}</h4>
-            <p>{article['description']}</p>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span class="{sentiment_class}">{sentiment}</span>
-                <span style="color: #666; font-size: 0.9em;">
+            <div class="news-header">
+                <span class="sentiment-badge {sentiment_class}">{sentiment}</span>
+                <span class="news-date">
                     {datetime.strptime(article['publishedAt'][:10], '%Y-%m-%d').strftime('%B %d, %Y')}
                 </span>
             </div>
+            <div class="news-title">{article['title']}</div>
+            <div style="color: #888;">{article['description']}</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -184,49 +295,35 @@ def fetch_financial_data(symbol):
         return None
 
 def main():
-    st.title("🔍 AI Counterparty Risk Dashboard")
+    st.markdown('<h1 style="color: white;">🔍 AI Counterparty Risk Dashboard</h1>', unsafe_allow_html=True)
     
-    # Input for stock symbol with fetch button
-    col1, col2 = st.columns([3, 1])
-    with col1:
-        symbol = st.text_input("Enter Company Stock Symbol:", "FSLR").upper()
+    # Center the input field
+    col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        fetch_button = st.button("🔄 Fetch Data", use_container_width=True)
+        symbol = st.text_input("", "TSLA", placeholder="Enter Company Stock Symbol")
+        # Place button directly below input, centered
+        fetch_button = st.button("🔄 Analyze", use_container_width=True)
     
     if fetch_button:
-        with st.spinner("Analyzing data..."):
-            # Get news and sentiment
+        with st.spinner("Analyzing market sentiment..."):
+            # Get news and analyze sentiment
             articles = fetch_news_articles(symbol)
             sentiments = analyze_sentiment(articles)
-            
-            # Calculate overall sentiment score
             sentiment_score = calculate_sentiment_score(sentiments)
             
-            # Display sentiment overview
-            st.markdown("### 📊 Sentiment Overview")
-            col1, col2 = st.columns(2)
+            # Sentiment Overview Section
+            st.markdown('<div class="section-header">📊 Market Sentiment Analysis</div>', unsafe_allow_html=True)
             
+            col1, col2 = st.columns(2)
             with col1:
                 st.plotly_chart(create_sentiment_gauge(sentiment_score), use_container_width=True)
             with col2:
                 st.plotly_chart(create_sentiment_distribution(sentiments), use_container_width=True)
             
-            # Display news with sentiments
-            st.markdown("### 📰 Latest News & Sentiment Analysis")
-            
-            # Display all news
+            # News Section
+            st.markdown('<div class="section-header">📰 Latest News Impact</div>', unsafe_allow_html=True)
             for article, sentiment in zip(articles, sentiments):
                 display_news_card(article, sentiment)
-            
-            # Financial metrics
-            st.markdown("### 💹 Financial Metrics")
-            financial_data = fetch_financial_data(symbol)
-            if financial_data:
-                metrics_df = pd.DataFrame([financial_data])
-                st.dataframe(
-                    metrics_df.style.background_gradient(cmap='Blues'),
-                    use_container_width=True
-                )
 
 if __name__ == "__main__":
     main()
