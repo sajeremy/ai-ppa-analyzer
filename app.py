@@ -74,9 +74,10 @@ st.markdown("""
     .news-card {
         background-color: var(--card-background);
         border-radius: 10px;
-        padding: 20px;
-        margin: 15px 0;
+        padding: 15px;
+        margin: 10px 0;
         border: 1px solid rgba(255, 255, 255, 0.1);
+        height: fit-content;
     }
     
     .news-header {
@@ -87,10 +88,10 @@ st.markdown("""
     }
     
     .news-title {
-        font-size: 1.1em;
+        font-size: 0.9em;
         font-weight: 500;
         color: var(--text-color);
-        margin-bottom: 10px;
+        margin: 10px 0;
     }
     
     .news-date {
@@ -138,6 +139,28 @@ st.markdown("""
     /* Ensure the text input takes full width */
     .stTextInput > div > div > input {
         width: 100%;
+    }
+    
+    /* Style for the details/summary elements */
+    details {
+        margin-top: 10px;
+    }
+    
+    summary {
+        color: var(--accent-color);
+        cursor: pointer;
+        font-size: 0.8em;
+    }
+    
+    summary:hover {
+        color: #6aafff;
+    }
+    
+    /* Make sentiment badges more compact */
+    .sentiment-badge {
+        padding: 4px 12px;
+        font-size: 0.9em;
+        min-width: 90px;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -261,7 +284,10 @@ def display_news_card(article, sentiment):
                 </span>
             </div>
             <div class="news-title">{article['title']}</div>
-            <div style="color: #888;">{article['description']}</div>
+            <details>
+                <summary>Read more</summary>
+                <div style="color: #888; margin-top: 10px;">{article['description']}</div>
+            </details>
         </div>
     """, unsafe_allow_html=True)
 
@@ -300,7 +326,7 @@ def main():
     # Center the input field
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        symbol = st.text_input("", "TSLA", placeholder="Enter Company Stock Symbol")
+        symbol = st.text_input("", "FSLR", placeholder="Enter Company Stock Symbol")
         # Place button directly below input, centered
         fetch_button = st.button("🔄 Analyze", use_container_width=True)
     
@@ -322,8 +348,16 @@ def main():
             
             # News Section
             st.markdown('<div class="section-header">📰 Latest News Impact</div>', unsafe_allow_html=True)
-            for article, sentiment in zip(articles, sentiments):
-                display_news_card(article, sentiment)
+            
+            # Display news cards in pairs
+            for i in range(0, len(articles), 2):
+                col1, col2 = st.columns(2)
+                with col1:
+                    if i < len(articles):
+                        display_news_card(articles[i], sentiments[i])
+                with col2:
+                    if i + 1 < len(articles):
+                        display_news_card(articles[i + 1], sentiments[i + 1])
 
 if __name__ == "__main__":
     main()
