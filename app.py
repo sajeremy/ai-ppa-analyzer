@@ -769,11 +769,16 @@ def main():
         "PPA Contract Analysis (CRS)"
     ])
 
+    # MFRS Tab
+    with tab1:
+        if fetch_button:
+            display_mfrs_analysis(symbol)
+
+    # CRS Tab
     with tab2:
         st.markdown('<h2 class="upload-header">📄 Upload PPA Document for Contractual Risk Analysis (CRS)</h2>', 
                 unsafe_allow_html=True)
     
-        # File uploader with custom text
         uploaded_file = st.file_uploader(
             "Upload PPA PDF",
             type=['pdf'],
@@ -785,96 +790,327 @@ def main():
             # Display file details
             st.write(f"{uploaded_file.name} • {round(uploaded_file.size/1e6, 1)}MB")
             
-            # Add process button
-            if st.button("Process Document", type="primary"):
-                with st.spinner("Analyzing PPA document..."):
-                    # Add your PPA document analysis logic here
-                    st.success("Document analysis complete!")
+            # Get base filename without extension
+            base_filename = os.path.splitext(uploaded_file.name)[0]
+            json_filename = f"{base_filename}.json"
+            
+            if os.path.exists(json_filename):
+                # Load the risk report
+                with open(json_filename, 'r') as f:
+                    risk_report = json.load(f)
+                
+                # Get financial risks from the correct path in the JSON
+                financial_risks = risk_report['risks_by_category']['financial']['risks']
+                crs, categorized_risks = calculate_contractual_risk_score(financial_risks)
+                
+                # Create two columns for the main charts
+                col1, col2 = st.columns(2)
+                
+                with col1:
+                    # Display CRS gauge
+                    st.plotly_chart(
+                        create_risk_gauge(crs, "Contractual Risk Score"),
+                        use_container_width=True
+                    )
+                
+                with col2:
+                    # Get risk scores by category from categorized_risks
+                    risk_categories = {
+                        category: data["score"] 
+                        for category, data in categorized_risks.items() 
+                        if data["risks"]  # Only include categories that have risks
+                    }
+                    
+                    # Sort by score in descending order
+                    risk_categories = dict(sorted(risk_categories.items(), key=lambda x: x[1], reverse=True))
+                    
+                    # Define colors based on risk score
+                    colors = ['rgba(40, 167, 69, 0.8)' if score <= 33 else  # Green for low risk
+                             'rgba(255, 193, 7, 0.8)' if score <= 66 else  # Yellow for medium risk
+                             'rgba(220, 53, 69, 0.8)'  # Red for high risk
+                             for score in risk_categories.values()]
+                    
+                    # Create component chart
+                    fig = go.Figure(go.Bar(
+                        x=list(risk_categories.values()),
+                        y=list(risk_categories.keys()),
+                        orientation='h',
+                        marker_color=colors,  # Use our color array instead of fixed color
+                        text=[f'{v:.1f}%' for v in risk_categories.values()],
+                        textposition='outside',
+                        textfont=dict(color='white'),
+                    ))
+                    
+                    fig.update_layout(
+                        title={'text': 'Risk Distribution by Type', 'font': {'color': 'white', 'size': 24}},
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        plot_bgcolor='rgba(0,0,0,0)',
+                        font={'color': 'white'},
+                        height=300,
+                        margin=dict(l=30, r=30, t=50, b=30),
+                        xaxis=dict(
+                            title='Risk Score',
+                            range=[0, 100],
+                            gridcolor='rgba(255, 255, 255, 0.1)',
+                            zerolinecolor='rgba(255, 255, 255, 0.1)'
+                        ),
+                        yaxis=dict(
+                            gridcolor='rgba(255, 255, 255, 0.1)',
+                            zerolinecolor='rgba(255, 255, 255, 0.1)'
+                        ),
+                        bargap=0.3
+                    )
+                    
+                    st.plotly_chart(fig, use_container_width=True)
 
-    
-    if fetch_button:
-        with st.spinner("Analyzing market sentiment..."):
-            # Get news and analyze sentiment
-            articles = fetch_news_articles(symbol)
-            articles = sorted(articles, 
-                            key=lambda x: datetime.strptime(x['publishedAt'][:19], '%Y-%m-%dT%H:%M:%S'),
-                            reverse=True)
+            elif st.button("Process Document", type="primary"):
+                with st.spinner("Analyzing PPA document..."):
+                    try:
+                        # Save uploaded file temporarily
+                        temp_pdf_path = "temp_upload.pdf"
+                        with open(temp_pdf_path, "wb") as f:
+                            f.write(uploaded_file.getbuffer())
+                        
+                        # Run the PDF analysis
+                        risk_report = analyze_document_risks(temp_pdf_path)
+                        
+                        # Save the risk report with same name as PDF
+                        with open(json_filename, 'w') as f:
+                            json.dump(risk_report, f, indent=4)
+                        
+                        # Clean up temporary file
+                        os.remove(temp_pdf_path)
+                        
+                        st.success("Document analysis complete! Displaying risk analysis...")
+                        
+                        # Display CRS Analysis
+                        display_crs_analysis(json_filename)
+                        
+                    except Exception as e:
+                        st.error(f"Error analyzing document: {e}")
+                        if os.path.exists(temp_pdf_path):
+                            os.remove(temp_pdf_path)
+
+def display_mfrs_analysis(symbol):
+    """Display the Market-Based Financial Risk Score analysis"""
+    try:
+        # Fetch financial data
+        financial_data = fetch_financial_data(symbol)
+        if not financial_data:
+            st.error("Could not fetch financial data. Please check the symbol and try again.")
+            return
+
+        # Calculate risk scores
+        risk_score, component_scores, weights = calculate_financial_risk_score(symbol)
+        
+        # Display company info
+        st.markdown(f"### {financial_data['Company Name']} ({symbol.upper()})")
+        
+        # Create two columns for charts
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Display risk gauge
+            st.plotly_chart(
+                create_risk_gauge(risk_score, "Market Financial Risk Score"),
+                use_container_width=True
+            )
+        
+        with col2:
+            # Display component chart
+            st.plotly_chart(
+                create_component_chart(component_scores, weights),
+                use_container_width=True
+            )
+
+        # Fetch and analyze news
+        st.markdown("### Recent News Analysis")
+        articles = fetch_news_articles(symbol)
+        if articles:
             sentiments = analyze_sentiment(articles)
             sentiment_score = calculate_sentiment_score(sentiments)
             
-            # Financial Risk Section
-            st.markdown('<div class="section-header">💰 Market-Based Financial Risk Score (MFRS)</div>', unsafe_allow_html=True)
-            risk_score, component_scores, weights = calculate_financial_risk_score(symbol)
-            
-            # Add error handling for empty scores
-            if not component_scores:
-                st.error("Unable to fetch financial data. Please check the stock symbol and try again.")
-                return
-                
+            # Create two columns for sentiment charts
             col1, col2 = st.columns(2)
+            
             with col1:
-                st.plotly_chart(create_risk_gauge(risk_score, "Financial Risk Score"), use_container_width=True)
+                st.plotly_chart(
+                    create_sentiment_gauge(sentiment_score),
+                    use_container_width=True
+                )
+            
             with col2:
-                st.plotly_chart(create_component_chart(component_scores, weights), use_container_width=True)
+                st.plotly_chart(
+                    create_sentiment_distribution(sentiments),
+                    use_container_width=True
+                )
             
-            # Contract Risk Analysis Section
-            st.markdown('<div class="section-header">📄 Contract Risk Analysis</div>', unsafe_allow_html=True)
-            try:
-                # Read the risk_report.json file
-                with open('risk_report.json', 'r') as f:
-                    risk_report = json.load(f)
-                
-                # Extract financial risks from the report
-                financial_risks = risk_report['risks_by_category']['financial']['risks']
-                
-                # Calculate contractual risk score
-                crs, categorized_risks = calculate_contractual_risk_score(financial_risks)
-                
-                if crs is not None and categorized_risks:
-                    # Display results in two columns
-                    col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        # Overall risk gauge
-                        st.plotly_chart(
-                            create_risk_gauge(
-                                crs,
-                                "Contractual Risk Score (CRS)"
-                            ),
-                            use_container_width=True
-                        )
-                    
-                    with col2:
-                        # Component breakdown
-                        scores = {category: data['score'] for category, data in categorized_risks.items()}
-                        st.plotly_chart(
-                            create_component_chart(scores, weights),
-                            use_container_width=True
-                        )
-            
-            except FileNotFoundError:
-                st.warning("No contract risk report found. Please analyze a document first.")
-            except Exception as e:
-                st.error(f"Error analyzing contract risks: {e}")
-            
-            # Market Sentiment Section
-            st.markdown('<div class="section-header">📊 Market Sentiment Analysis</div>', unsafe_allow_html=True)
-            col1, col2 = st.columns(2)
-            with col1:
-                st.plotly_chart(create_sentiment_gauge(sentiment_score), use_container_width=True)
-            with col2:
-                st.plotly_chart(create_sentiment_distribution(sentiments), use_container_width=True)
-            
-            # News Section
-            st.markdown('<div class="section-header">📰 Latest News Impact</div>', unsafe_allow_html=True)
+            # Display news cards in pairs
+            st.markdown("### Recent News")
             for i in range(0, len(articles), 2):
                 col1, col2 = st.columns(2)
+                
+                # First article in the pair
                 with col1:
                     if i < len(articles):
                         display_news_card(articles[i], sentiments[i])
+                
+                # Second article in the pair
                 with col2:
                     if i + 1 < len(articles):
                         display_news_card(articles[i + 1], sentiments[i + 1])
+        else:
+            st.warning("No recent news articles found.")
+
+    except Exception as e:
+        st.error(f"Error in analysis: {e}")
+
+def display_crs_analysis(json_filename):
+    """Display the Contractual Risk Score analysis based on the risk report"""
+    
+    # Load the risk report
+    with open(json_filename, 'r') as f:
+        risk_report = json.load(f)
+    
+    # Calculate total risks and severity counts
+    total_risks = risk_report['summary']['total_risks']
+    high_risks = risk_report['summary']['high_severity']
+    medium_risks = risk_report['summary']['medium_severity']
+    low_risks = risk_report['summary']['low_severity']
+
+    # Display company info and metrics in header row
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric(
+            label="Total Risks",
+            value=total_risks,
+            delta=None,
+            delta_color="off",
+        )
+    
+    with col2:
+        st.metric(
+            label="High Severity",
+            value=high_risks,
+            delta=None,
+            delta_color="off",
+        )
+    
+    with col3:
+        st.metric(
+            label="Medium Severity",
+            value=medium_risks,
+            delta=None,
+            delta_color="off",
+        )
+    
+    with col4:
+        st.metric(
+            label="Low Severity",
+            value=low_risks,
+            delta=None,
+            delta_color="off",
+        )
+
+    # Calculate CRS and get categorized risks
+    crs, categorized_risks = calculate_contractual_risk_score(risk_report['risks'])
+
+    # Create two columns for the main charts
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        # Display CRS gauge
+        st.plotly_chart(
+            create_risk_gauge(crs, "Contractual Risk Score"),
+            use_container_width=True
+        )
+    
+    with col2:
+        # Get risk scores by category
+        risk_categories = {
+            category: data["score"] 
+            for category, data in categorized_risks.items() 
+            if data["risks"]  # Only include categories that have risks
+        }
+        
+        # Sort by score in descending order
+        risk_categories = dict(sorted(risk_categories.items(), key=lambda x: x[1], reverse=True))
+        
+        # Define colors based on risk score
+        colors = ['rgba(40, 167, 69, 0.8)' if score <= 33 else  # Green for low risk
+                 'rgba(255, 193, 7, 0.8)' if score <= 66 else  # Yellow for medium risk
+                 'rgba(220, 53, 69, 0.8)'  # Red for high risk
+                 for score in risk_categories.values()]
+        
+        # Create component chart
+        fig = go.Figure(go.Bar(
+            x=list(risk_categories.values()),
+            y=list(risk_categories.keys()),
+            orientation='h',
+            marker_color=colors,  # Use our color array instead of fixed color
+            text=[f'{v:.1f}%' for v in risk_categories.values()],
+            textposition='outside',
+            textfont=dict(color='white'),
+        ))
+        
+        fig.update_layout(
+            title={'text': 'Risk Distribution by Type', 'font': {'color': 'white', 'size': 24}},
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font={'color': 'white'},
+            height=300,
+            margin=dict(l=30, r=30, t=50, b=30),
+            xaxis=dict(
+                title='Risk Score',
+                range=[0, 100],
+                gridcolor='rgba(255, 255, 255, 0.1)',
+                zerolinecolor='rgba(255, 255, 255, 0.1)'
+            ),
+            yaxis=dict(
+                gridcolor='rgba(255, 255, 255, 0.1)',
+                zerolinecolor='rgba(255, 255, 255, 0.1)'
+            ),
+            bargap=0.3
+        )
+        
+        st.plotly_chart(fig, use_container_width=True)
+
+    # Display risk breakdown by category
+    st.markdown("### Risk Breakdown by Category")
+    
+    # Create columns for risk categories
+    cols = st.columns(2)
+    col_idx = 0
+    
+    for category, data in risk_report['risks_by_category'].items():
+        with cols[col_idx]:
+            with st.expander(f"{category.title()} Risks ({data['count']})"):
+                for risk in data['risks']:
+                    severity_class = {
+                        'HIGH': 'sentiment-negative',
+                        'MEDIUM': 'sentiment-neutral',
+                        'LOW': 'sentiment-positive'
+                    }.get(risk['severity'], 'sentiment-neutral')
+                    
+                    st.markdown(f"""
+                        <div class="news-card">
+                            <div class="news-header">
+                                <span class="sentiment-badge {severity_class}">{risk['severity']}</span>
+                            </div>
+                            <div class="news-title">{risk['description']}</div>
+                            <details>
+                                <summary>Details</summary>
+                                <div style="color: #888; margin-top: 10px;">
+                                    <strong>Section:</strong> {risk['contract_section']}<br>
+                                    <strong>Mitigation:</strong> {risk['mitigation']}
+                                </div>
+                            </details>
+                        </div>
+                    """, unsafe_allow_html=True)
+        
+        # Toggle between columns
+        col_idx = (col_idx + 1) % 2
 
 if __name__ == "__main__":
     main()
