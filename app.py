@@ -499,18 +499,32 @@ def calculate_financial_risk_score(symbol):
             'Macro Risk': get_macro_risk_score(info)
         }
         
+        # Adjust weights to give more impact to high-risk indicators
         weights = {
-            'Stock Volatility': 0.10,
-            'Debt-to-Equity': 0.10,
-            'Interest Coverage': 0.10,
-            'Credit Rating': 0.10,
-            'Liquidity': 0.05,
-            'Macro Risk': 0.05
+            'Stock Volatility': 0.25,    # Increased from 0.10
+            'Debt-to-Equity': 0.20,      # Increased from 0.10
+            'Interest Coverage': 0.20,    # Increased from 0.10
+            'Credit Rating': 0.15,       # Increased from 0.10
+            'Liquidity': 0.10,           # Increased from 0.05
+            'Macro Risk': 0.10           # Increased from 0.05
         }
         
-        total_score = sum(score * weights[metric] for metric, score in scores.items())
+        # Calculate weighted score with amplification for high risks
+        total_score = 0
+        for metric, score in scores.items():
+            # Amplify high scores (risks) more than low scores
+            adjusted_score = score
+            if score > 66:  # High risk
+                adjusted_score = score * 1.2  # Amplify high risks by 20%
+            elif score < 33:  # Low risk
+                adjusted_score = score * 0.8  # Reduce low risks by 20%
+            
+            total_score += adjusted_score * weights[metric]
         
-        return total_score, scores, weights
+        # Ensure the final score stays within 0-100
+        final_score = min(100, max(0, total_score))
+        
+        return final_score, scores, weights
         
     except Exception as e:
         st.error(f"Error calculating financial risk: {e}")
