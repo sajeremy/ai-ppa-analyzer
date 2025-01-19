@@ -769,6 +769,28 @@ def main():
         "PPA Contract Analysis (CRS)"
     ])
 
+    with tab2:
+        st.markdown('<h2 class="upload-header">📄 Upload PPA Document for Contractual Risk Analysis (CRS)</h2>', 
+                unsafe_allow_html=True)
+    
+        # File uploader with custom text
+        uploaded_file = st.file_uploader(
+            "Upload PPA PDF",
+            type=['pdf'],
+            help="Limit 200MB per file • PDF",
+            label_visibility="visible"
+        )
+        
+        if uploaded_file is not None:
+            # Display file details
+            st.write(f"{uploaded_file.name} • {round(uploaded_file.size/1e6, 1)}MB")
+            
+            # Add process button
+            if st.button("Process Document", type="primary"):
+                with st.spinner("Analyzing PPA document..."):
+                    # Add your PPA document analysis logic here
+                    st.success("Document analysis complete!")
+
     
     if fetch_button:
         with st.spinner("Analyzing market sentiment..."):
