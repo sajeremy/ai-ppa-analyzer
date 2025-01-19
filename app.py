@@ -10,6 +10,8 @@ import plotly.express as px
 from datetime import datetime
 import numpy as np
 from scipy.stats import norm
+from pdf_parser import analyze_document_risks  # Update this import
+import json
 
 # Load environment variables
 load_dotenv()
@@ -570,8 +572,8 @@ def create_component_chart(scores, weights):
         orientation='h',
         marker_color=colors,
         text=[f'{v:.1f}%' for v in values],
-        textposition='outside',  # Changed to 'outside' to always show text
-        textfont=dict(color='white'),  # Ensure text is visible
+        textposition='outside',
+        textfont=dict(color='white'),
     ))
     
     fig.update_layout(
@@ -583,7 +585,7 @@ def create_component_chart(scores, weights):
         margin=dict(l=30, r=30, t=50, b=30),
         xaxis=dict(
             title='Risk Score',
-            range=[-5, 105],  # Adjusted range to show 0% scores clearly
+            range=[-5, 105],
             gridcolor='rgba(255, 255, 255, 0.1)',
             zerolinecolor='rgba(255, 255, 255, 0.1)'
         ),
@@ -592,14 +594,140 @@ def create_component_chart(scores, weights):
             gridcolor='rgba(255, 255, 255, 0.1)',
             zerolinecolor='rgba(255, 255, 255, 0.1)'
         ),
-        bargap=0.3  # Add some gap between bars
+        bargap=0.3
     )
     return fig
+
+def calculate_contractual_risk_score(risks):
+    """Calculate Contractual Risk Score (CRS) using weighted risk components"""
+    try:
+        model = palm.GenerativeModel('gemini-2.0-flash-exp')
+        
+        # Define weights for each risk category
+        weights = {
+            'Payment Risk': 0.15,      # w1 = 15% (Payment Structure)
+            'Credit Support': 0.10,    # w2 = 10% (Credit Support)
+            'Default Risk': 0.10,      # w3 = 10% (Default & Termination)
+            'Performance Risk': 0.05,   # w4 = 5% (Performance Guarantees)
+            'Regulatory Risk': 0.05,    # w5 = 5% (Regulatory Risk)
+            'Market Exposure': 0.05     # w6 = 5% (Market Exposure)
+        }
+        
+        # Modify prompt to be more explicit about scoring
+        prompt = """Analyze each risk and categorize it into one of these categories with a risk score (0-100):
+
+Scoring Guidelines:
+- Low Risk (0-30): Minor issues that are easily mitigated
+- Medium Risk (31-70): Significant concerns requiring attention
+- High Risk (71-100): Critical issues that could severely impact the contract
+
+Categories:
+- Payment Risk: Risks related to payment structures, terms, and flexibility
+- Credit Support: Risks related to credit guarantees and financial backing
+- Default Risk: Risks related to default scenarios and legal protections
+- Performance Risk: Risks related to operational performance and delivery guarantees
+- Regulatory Risk: Risks related to regulatory compliance and protection
+- Market Exposure: Risks related to pricing structures and market volatility
+
+For each risk below, respond with exactly ONE WORD for the category and ONE NUMBER for the score, each on a new line without any prefixes or additional text.
+
+Here are the risks to analyze:
+
+"""
+        # Rest of the prompt building remains the same...
+        for i, risk in enumerate(risks, 1):
+            prompt += f"""
+Risk {i}:
+{risk['description']}
+Severity: {risk['severity']}
+{risk['relevant_text']}
+
+"""
+        
+        # Get response from Gemini
+        response = model.generate_content(prompt)
+        
+        # Initialize categorized risks
+        categorized_risks = {
+            "Payment Risk": {"risks": [], "score": 0},
+            "Credit Support": {"risks": [], "score": 0},
+            "Default Risk": {"risks": [], "score": 0},
+            "Performance Risk": {"risks": [], "score": 0},
+            "Regulatory Risk": {"risks": [], "score": 0},
+            "Market Exposure": {"risks": [], "score": 0}
+        }
+        
+        if response:
+            lines = [line.strip() for line in response.text.split('\n') if line.strip()]
+            
+            # Process responses and calculate average scores for each category
+            for i in range(0, len(lines), 2):
+                if i + 1 < len(lines):
+                    try:
+                        category = lines[i].strip()
+                        score = int(lines[i + 1])
+                        
+                        # Map severity to score ranges to validate LLM output
+                        severity_ranges = {
+                            "LOW": (0, 30),
+                            "MEDIUM": (31, 70),
+                            "HIGH": (71, 100)
+                        }
+                        
+                        # Convert single word category to full category name
+                        category_map = {
+                            "Payment": "Payment Risk",
+                            "Credit": "Credit Support",
+                            "Default": "Default Risk",
+                            "Performance": "Performance Risk",
+                            "Regulatory": "Regulatory Risk",
+                            "Market": "Market Exposure"
+                        }
+                        
+                        full_category = category_map.get(category, category)
+                        
+                        if full_category in categorized_risks:
+                            idx = i // 2
+                            if idx < len(risks):
+                                # Adjust score based on original severity if needed
+                                original_severity = risks[idx]['severity']
+                                severity_range = severity_ranges.get(original_severity, (0, 100))
+                                adjusted_score = min(max(score, severity_range[0]), severity_range[1])
+                                
+                                categorized_risks[full_category]["risks"].append({
+                                    "original_risk": risks[idx],
+                                    "score": adjusted_score
+                                })
+                    except ValueError as e:
+                        st.warning(f"Error parsing response lines {i}/{i+1}: {e}")
+                        continue
+        
+        # Calculate average scores for each category
+        for category in categorized_risks:
+            risks_in_category = categorized_risks[category]["risks"]
+            if risks_in_category:
+                avg_score = sum(r["score"] for r in risks_in_category) / len(risks_in_category)
+                categorized_risks[category]["score"] = avg_score
+        
+        # Calculate CRS using the weighted formula
+        crs = 0
+        for category, data in categorized_risks.items():
+            if data["risks"]:  # Only include categories that have risks
+                crs += data["score"] * weights[category]
+        
+        # Scale CRS to 0-100
+        crs = min(100, crs * 2)  # Multiply by 2 since weights sum to 0.5
+        
+        return crs, categorized_risks
+        
+    except Exception as e:
+        st.error(f"Error in risk categorization: {e}")
+        return None, None
 
 def main():
     st.markdown('<h1 style="color: white;">🔍 AI Counterparty Risk Dashboard</h1>', unsafe_allow_html=True)
     
-    # Center the input field with proper label
+    # Stock Analysis Section First
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         symbol = st.text_input(
@@ -634,6 +762,46 @@ def main():
                 st.plotly_chart(create_risk_gauge(risk_score, "Financial Risk Score"), use_container_width=True)
             with col2:
                 st.plotly_chart(create_component_chart(component_scores, weights), use_container_width=True)
+            
+            # Contract Risk Analysis Section
+            st.markdown('<div class="section-header">📄 Contract Risk Analysis</div>', unsafe_allow_html=True)
+            try:
+                # Read the risk_report.json file
+                with open('risk_report.json', 'r') as f:
+                    risk_report = json.load(f)
+                
+                # Extract financial risks from the report
+                financial_risks = risk_report['risks_by_category']['financial']['risks']
+                
+                # Calculate contractual risk score
+                crs, categorized_risks = calculate_contractual_risk_score(financial_risks)
+                
+                if crs is not None and categorized_risks:
+                    # Display results in two columns
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        # Overall risk gauge
+                        st.plotly_chart(
+                            create_risk_gauge(
+                                crs,
+                                "Contractual Risk Score (CRS)"
+                            ),
+                            use_container_width=True
+                        )
+                    
+                    with col2:
+                        # Component breakdown
+                        scores = {category: data['score'] for category, data in categorized_risks.items()}
+                        st.plotly_chart(
+                            create_component_chart(scores, weights),
+                            use_container_width=True
+                        )
+            
+            except FileNotFoundError:
+                st.warning("No contract risk report found. Please analyze a document first.")
+            except Exception as e:
+                st.error(f"Error analyzing contract risks: {e}")
             
             # Market Sentiment Section
             st.markdown('<div class="section-header">📊 Market Sentiment Analysis</div>', unsafe_allow_html=True)
