@@ -863,6 +863,95 @@ def main():
                     
                     st.plotly_chart(fig, use_container_width=True)
 
+                # After the charts, add the risk metrics and analysis
+                
+                # Calculate total risks and severity counts from all categories
+                total_risks = sum(data['count'] for data in risk_report['risks_by_category'].values())
+                high_risks = sum(
+                    sum(1 for risk in data['risks'] if risk['severity'] == 'HIGH')
+                    for data in risk_report['risks_by_category'].values()
+                )
+                medium_risks = sum(
+                    sum(1 for risk in data['risks'] if risk['severity'] == 'MEDIUM')
+                    for data in risk_report['risks_by_category'].values()
+                )
+                low_risks = sum(
+                    sum(1 for risk in data['risks'] if risk['severity'] == 'LOW')
+                    for data in risk_report['risks_by_category'].values()
+                )
+
+                # Display metrics in header row
+                col1, col2, col3, col4 = st.columns(4)
+                
+                with col1:
+                    st.metric(
+                        label="Total Risks",
+                        value=total_risks,
+                        delta=None,
+                        delta_color="off",
+                    )
+                
+                with col2:
+                    st.metric(
+                        label="High Severity",
+                        value=high_risks,
+                        delta=None,
+                        delta_color="off",
+                    )
+                
+                with col3:
+                    st.metric(
+                        label="Medium Severity",
+                        value=medium_risks,
+                        delta=None,
+                        delta_color="off",
+                    )
+                
+                with col4:
+                    st.metric(
+                        label="Low Severity",
+                        value=low_risks,
+                        delta=None,
+                        delta_color="off",
+                    )
+
+                # Display detailed risk breakdown
+                st.markdown("### Detailed Risk Analysis")
+                
+                # Create columns for risk categories
+                cols = st.columns(2)
+                col_idx = 0
+                
+                for category, data in risk_report['risks_by_category'].items():
+                    if data['risks']:  # Only show categories that have risks
+                        with cols[col_idx]:
+                            with st.expander(f"{category.title()} Risks ({data['count']})"):
+                                for risk in data['risks']:
+                                    severity_class = {
+                                        'HIGH': 'sentiment-negative',
+                                        'MEDIUM': 'sentiment-neutral',
+                                        'LOW': 'sentiment-positive'
+                                    }.get(risk['severity'], 'sentiment-neutral')
+                                    
+                                    st.markdown(f"""
+                                        <div class="news-card">
+                                            <div class="news-header">
+                                                <span class="sentiment-badge {severity_class}">{risk['severity']}</span>
+                                            </div>
+                                            <div class="news-title">{risk['description']}</div>
+                                            <details>
+                                                <summary>Details</summary>
+                                                <div style="color: #888; margin-top: 10px;">
+                                                    <strong>Section:</strong> {risk['contract_section']}<br>
+                                                    <strong>Mitigation:</strong> {risk['mitigation']}
+                                                </div>
+                                            </details>
+                                        </div>
+                                    """, unsafe_allow_html=True)
+                        
+                        # Toggle between columns
+                        col_idx = (col_idx + 1) % 2
+
             elif st.button("Process Document", type="primary"):
                 with st.spinner("Analyzing PPA document..."):
                     try:
@@ -1111,6 +1200,95 @@ def display_crs_analysis(json_filename):
         
         # Toggle between columns
         col_idx = (col_idx + 1) % 2
+
+    # Add the risk category summary table here
+    st.markdown("### Risk Category Summary")
+    
+    # Define color coding for different risk levels
+    def get_color_for_score(score):
+        if score <= 33:
+            return "background-color: rgba(40, 167, 69, 0.2)"  # Green
+        elif score <= 66:
+            return "background-color: rgba(255, 193, 7, 0.2)"  # Yellow
+        else:
+            return "background-color: rgba(220, 53, 69, 0.2)"  # Red
+
+    def get_severity_label(score):
+        if score <= 33:
+            return "Low Risk"
+        elif score <= 66:
+            return "Medium Risk"
+        else:
+            return "High Risk"
+
+    # Create DataFrame for the table - include all categories
+    all_categories = [
+        "Payment Risk",
+        "Credit Support",
+        "Default Risk",
+        "Performance Risk",
+        "Regulatory Risk",
+        "Market Exposure"
+    ]
+    
+    risk_data = []
+    for category in all_categories:
+        data = categorized_risks.get(category, {"risks": [], "score": 0})
+        risk_data.append({
+            "Category": category,
+            "Score": f"{data['score']:.1f}%",
+            "Severity": get_severity_label(data['score']),
+            "Number of Risks": len(data["risks"])
+        })
+
+    df = pd.DataFrame(risk_data)
+    
+    # Style the dataframe
+    def style_df(row):
+        score = float(row['Score'].strip('%'))
+        return [get_color_for_score(score)] * len(row)
+
+    styled_df = df.style.apply(style_df, axis=1)
+    
+    # Display the table
+    st.table(styled_df)
+
+    # After the table display, add detailed risk breakdown
+    st.markdown("### Detailed Risk Analysis")
+    
+    # Create columns for risk categories
+    cols = st.columns(2)
+    col_idx = 0
+    
+    for category, data in categorized_risks.items():
+        if data["risks"]:  # Only show categories that have risks
+            with cols[col_idx]:
+                with st.expander(f"{category} ({len(data['risks'])})"):
+                    for risk in data["risks"]:
+                        severity_class = {
+                            'HIGH': 'sentiment-negative',
+                            'MEDIUM': 'sentiment-neutral',
+                            'LOW': 'sentiment-positive'
+                        }.get(risk['original_risk']['severity'], 'sentiment-neutral')
+                        
+                        st.markdown(f"""
+                            <div class="news-card">
+                                <div class="news-header">
+                                    <span class="sentiment-badge {severity_class}">{risk['original_risk']['severity']}</span>
+                                </div>
+                                <div class="news-title">{risk['original_risk']['description']}</div>
+                                <details>
+                                    <summary>Details</summary>
+                                    <div style="color: #888; margin-top: 10px;">
+                                        <strong>Section:</strong> {risk['original_risk']['contract_section']}<br>
+                                        <strong>Mitigation:</strong> {risk['original_risk']['mitigation']}
+                                    </div>
+                                </details>
+                            </div>
+                        """, unsafe_allow_html=True)
+                        
+                        # Toggle between columns
+                        col_idx = (col_idx + 1) % 2
 
 if __name__ == "__main__":
     main()
