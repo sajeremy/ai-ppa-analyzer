@@ -10,6 +10,8 @@ from dataclasses import dataclass
 import os
 from dotenv import load_dotenv
 
+import sys
+
 @dataclass
 class RiskItem:
     category: str
@@ -245,31 +247,64 @@ class PPARiskAnalyzer:
         
         return report
 
-def main():
+def analyze_document_risks(pdf_path: str, gemini_api_key: str="") -> dict:
+
+    load_dotenv()
+    gemini_api_key=os.getenv("GOOGLE_API_KEY")
+
     try:
-        # Load environment variables
-        load_dotenv()
-        
         # Initialize analyzer
-        analyzer = PPARiskAnalyzer(gemini_api_key=os.getenv("GOOGLE_API_KEY"))
+        analyzer = PPARiskAnalyzer(gemini_api_key=gemini_api_key)
         
         # Load document
-        num_chunks = analyzer.load_document("PPA.pdf")
+        num_chunks = analyzer.load_document(pdf_path)
         print(f"Loaded {num_chunks} document chunks")
         
-        # Analyze risks - remove await
+        # Analyze risks
         risks = analyzer.analyze_risks()
         
         # Generate report
         report = analyzer.generate_risk_report(risks)
-        
-        # Save report
-        with open('risk_report.json', 'w') as f:
-            json.dump(report, f, indent=2)
+        print(report)
+        return report
             
     except Exception as e:
         print(f"Error in main execution: {str(e)}")
         raise
 
 if __name__ == "__main__":
-    main()  # Remove asyncio.run()
+    if len(sys.argv) != 2:
+        print("Usage: python -m climate-hackathon.pdf_parser <pdf_path>")
+    else:
+        pdf_path = sys.argv[1]
+        result = analyze_document_risks(pdf_path)
+        print(result)
+        
+# def main():
+#     try:
+#         # Load environment variables
+#         load_dotenv()
+        
+#         # Initialize analyzer
+#         analyzer = PPARiskAnalyzer(gemini_api_key=os.getenv("GOOGLE_API_KEY"))
+        
+#         # Load document
+#         num_chunks = analyzer.load_document("PPA.pdf")
+#         print(f"Loaded {num_chunks} document chunks")
+        
+#         # Analyze risks - remove await
+#         risks = analyzer.analyze_risks()
+        
+#         # Generate report
+#         report = analyzer.generate_risk_report(risks)
+        
+#         # Save report
+#         with open('risk_report.json', 'w') as f:
+#             json.dump(report, f, indent=2)
+            
+#     except Exception as e:
+#         print(f"Error in main execution: {str(e)}")
+#         raise
+
+# if __name__ == "__main__":
+#     main()  # Remove asyncio.run()
