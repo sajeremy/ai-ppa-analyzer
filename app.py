@@ -524,7 +524,7 @@ def create_risk_gauge(score, title="Risk Score"):
             "rgba(220, 53, 69, 0.8)"
             
     fig = go.Figure(go.Indicator(
-        mode="gauge+number",
+        mode="gauge",  # Removed '+number' to disable default number
         value=score,
         domain={'x': [0, 1], 'y': [0, 1]},
         gauge={
@@ -554,6 +554,18 @@ def create_risk_gauge(score, title="Risk Score"):
         height=300,
         margin=dict(l=30, r=30, t=50, b=30)
     )
+    
+    # Force number position to be centered with larger font
+    fig.add_annotation(
+        x=0.5,
+        y=0.25,  # Moved down from 0.5 to 0.25
+        text=f"{score:.0f}",
+        showarrow=False,
+        font=dict(size=80, color="white"),  # Increased font size from 50 to 80
+        xanchor='center',
+        yanchor='middle'
+    )
+    
     return fig
 
 def create_component_chart(scores, weights):
@@ -725,7 +737,7 @@ Severity: {risk['severity']}
         return None, None
 
 def main():
-    st.markdown('<h1 style="color: white;">🔍 AI Counterparty Risk Dashboard</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 style="color: white;">🔍 AI PPA Financial Risk Dashboard</h1>', unsafe_allow_html=True)
     
     # Stock Analysis Section First
     col1, col2, col3 = st.columns([1, 2, 1])
@@ -749,7 +761,7 @@ def main():
             sentiment_score = calculate_sentiment_score(sentiments)
             
             # Financial Risk Section
-            st.markdown('<div class="section-header">💰 Financial Risk Analysis</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-header">💰 Market-Based Financial Risk Score (MFRS)</div>', unsafe_allow_html=True)
             risk_score, component_scores, weights = calculate_financial_risk_score(symbol)
             
             # Add error handling for empty scores
