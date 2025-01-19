@@ -16,7 +16,7 @@ load_dotenv()
 
 # Configure API keys
 NEWS_API_KEY = os.getenv('NEWS_API_KEY')
-palm.configure(api_key=os.getenv('PALM_API_KEY'))
+palm.configure(api_key=os.getenv('GOOGLE_API_KEY'))
 
 # Streamlit page config
 st.set_page_config(

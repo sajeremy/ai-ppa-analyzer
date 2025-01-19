@@ -145,17 +145,29 @@ class PPARiskAnalyzer:
                     # Combine chunks for analysis
                     combined_text = "\n".join(relevant_chunks)
                     
-                    # Generate analysis - remove await
+                    # Generate analysis
                     response = self.model.generate_content(
                         self._create_risk_prompt(category, query, combined_text)
                     )
                     
                     # Parse response
                     try:
-                        risk_data = json.loads(response.text)
-                        print("test if above loop")
+                        # Clean and extract JSON content
+                        response_text = response.text.strip()
+                        
+                        # Find the JSON content between markdown markers if present
+                        if '```json' in response_text and '```' in response_text:
+                            start = response_text.find('```json') + 7
+                            end = response_text.rfind('```')
+                            response_text = response_text[start:end]
+                        
+                        # Clean up any remaining whitespace
+                        response_text = response_text.strip()
+                        
+                        # Parse the cleaned JSON
+                        risk_data = json.loads(response_text)
+                        
                         for risk in risk_data.get('risks', []):
-                            print("test if in loop")
                             risks.append(
                                 RiskItem(
                                     category=category,
@@ -166,8 +178,9 @@ class PPARiskAnalyzer:
                                     mitigation_suggestion=risk['mitigation_suggestion']
                                 )
                             )
-                    except json.JSONDecodeError:
-                        print(f"Error parsing response for {category} - {query}. Response: {response.text}")
+                    except json.JSONDecodeError as e:
+                        print(f"Error parsing response for {category} - {query}. Error: {str(e)}")
+                        print(f"Response text: {response_text}")
                         continue
                         
         except Exception as e:
