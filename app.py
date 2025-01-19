@@ -323,117 +323,144 @@ def fetch_financial_data(symbol):
         return None
 
 def calculate_stock_volatility(symbol, period='1y'):
-    """Calculate stock volatility score (0-100)"""
+    """Calculate stock volatility risk score using beta (0-100, where higher = more risk)"""
     try:
         stock = yf.Ticker(symbol)
-        hist = stock.history(period=period)
-        returns = np.log(hist['Close']/hist['Close'].shift(1))
-        volatility = returns.std() * np.sqrt(252)  # Annualized volatility
-        # Convert to 0-100 score (higher volatility = lower score)
-        score = 100 * (1 - norm.cdf(volatility, loc=0.3, scale=0.2))
+        beta = stock.info.get('beta', 1.0)
+        
+        # Convert beta to 0-100 risk score
+        # Beta interpretation:
+        # beta < 0.5: very low volatility
+        # 0.5-0.8: low volatility
+        # 0.8-1.2: market-like volatility
+        # 1.2-2.0: high volatility
+        # > 2.0: very high volatility
+        
+        if beta <= 0:  # Negative beta (rare) - treat as moderate risk
+            score = 50
+        elif beta <= 0.5:  # Very low volatility
+            score = beta * 20  # Maps 0-0.5 beta to 0-10 score
+        elif beta <= 0.8:  # Low volatility
+            score = 10 + (beta - 0.5) * (30/0.3)  # Maps 0.5-0.8 beta to 10-40 score
+        elif beta <= 1.2:  # Market-like volatility
+            score = 40 + (beta - 0.8) * (20/0.4)  # Maps 0.8-1.2 beta to 40-60 score
+        elif beta <= 2.0:  # High volatility
+            score = 60 + (beta - 1.2) * (30/0.8)  # Maps 1.2-2.0 beta to 60-90 score
+        else:  # Very high volatility
+            score = 90 + min((beta - 2.0) * 5, 10)  # Maps beta > 2.0 to 90-100 score
+            
         return max(0, min(100, score))
     except:
-        return 50  # Default score if calculation fails
+        return 50  # Return moderate risk score if calculation fails
 
 def calculate_interest_coverage(info):
-    """Calculate interest coverage ratio score (0-100)"""
+    """Calculate interest coverage ratio risk score (0-100, where higher = more risk)"""
     try:
-        ebit = info.get('ebit', 0)
-        interest_expense = info.get('interestExpense', 0)
-        if interest_expense == 0:
+        operating_cash = info.get('operatingCashflow', 0)
+        total_debt = info.get('totalDebt', 1)  # Use 1 to avoid division by zero
+        
+        # Calculate debt service capability using Operating Cash Flow to Total Debt ratio
+        coverage_ratio = (operating_cash / total_debt) if total_debt else 0
+        
+        # Convert to 0-100 risk score (lower coverage = higher risk)
+        if coverage_ratio <= 0:  # Negative or no operating cash flow
             return 100
-        ratio = abs(ebit / interest_expense)
-        # Convert to 0-100 score (higher is better)
-        score = min(100, ratio * 10)  # Scale ratio to 0-100
-        return max(0, score)
+        elif coverage_ratio >= 0.3:  # Can cover 30% of debt with one year's cash flow
+            return 0
+        else:
+            # Linear scaling between 0 and 0.3
+            score = 100 - (coverage_ratio / 0.3) * 100
+            
+        return max(0, min(100, score))
     except:
-        return 50
+        return 50  # Return moderate risk score if calculation fails
 
 def calculate_liquidity_ratio(info):
-    """Calculate liquidity ratio score (0-100)"""
+    """Calculate liquidity ratio risk score (0-100, where higher = more risk)"""
     try:
         current_ratio = info.get('currentRatio', 0)
-        # Convert to 0-100 score (optimal range around 1.5-3.0)
+        # Convert to 0-100 risk score (lower liquidity = higher risk)
         if current_ratio < 1:
-            score = current_ratio * 50
+            score = 100 - (current_ratio * 50)
         elif current_ratio < 2:
-            score = 75 + (current_ratio - 1) * 25
+            score = 50 - (current_ratio - 1) * 25
         else:
-            score = 100 - max(0, (current_ratio - 2) * 10)
+            score = max(0, (current_ratio - 2) * 10)
         return max(0, min(100, score))
     except:
         return 50
 
 def calculate_de_ratio_score(de_ratio):
-    """Calculate D/E ratio score (0-100)"""
+    """Calculate D/E ratio risk score (0-100, where higher = more risk)"""
     try:
-        # Convert to 0-100 score (lower is better)
+        # Convert to 0-100 risk score (higher D/E = higher risk)
         if de_ratio <= 0:
-            return 100
-        score = 100 * (1 - norm.cdf(de_ratio, loc=2, scale=1))
+            return 0
+        score = 100 * norm.cdf(de_ratio, loc=2, scale=1)
         return max(0, min(100, score))
     except:
         return 50
 
 def get_credit_rating_score(info):
-    """Calculate credit rating score based on actual rating"""
+    """Calculate credit rating risk score (0-100, where higher = more risk)"""
     try:
-        # Get financial health metrics as indicators
+        # Get key metrics
+        market_cap = info.get('marketCap', 0)
         total_debt = info.get('totalDebt', 0)
-        total_assets = info.get('totalAssets', 1)  # Default to 1 to avoid division by zero
+        ebitda = info.get('ebitda', 1)  # Use 1 to avoid division by zero
+        current_ratio = info.get('currentRatio', 1)
         
-        # Ensure we have valid data
-        if total_debt == 0 and total_assets == 1:
-            return 50  # Return neutral score if no data
-            
-        debt_ratio = total_debt / total_assets
+        # Calculate key ratios
+        debt_to_ebitda = total_debt / ebitda if ebitda else 5  # Higher is worse
+        size_factor = 1 - min(market_cap / 1e11, 1)  # Smaller companies are riskier
         
-        # Calculate score based on financial metrics
-        base_score = 100 * (1 - min(debt_ratio, 1))
-        
-        # Get credit rating from business summary if available
-        rating = info.get('longBusinessSummary', '').lower()
-        
-        # Adjust score based on credit rating mentions
-        if any(term in rating for term in ['aaa', 'aa', 'a+']):
-            score = min(100, base_score + 20)
-        elif any(term in rating for term in ['bbb', 'bb']):
-            score = min(100, base_score + 10)
-        elif any(term in rating for term in ['b', 'ccc']):
-            score = max(0, base_score - 10)
-        elif any(term in rating for term in ['cc', 'c', 'd']):
-            score = max(0, base_score - 20)
+        # Base score calculation (0-100, higher = more risk)
+        # 1. Debt to EBITDA component (0-40 points)
+        if debt_to_ebitda <= 2:
+            debt_score = 0
+        elif debt_to_ebitda <= 4:
+            debt_score = 20
         else:
-            score = base_score
+            debt_score = min(40, debt_to_ebitda * 10)
             
-        return max(0, min(100, score))
+        # 2. Size component (0-30 points)
+        size_score = size_factor * 30
+        
+        # 3. Current ratio component (0-30 points)
+        if current_ratio >= 2:
+            liquidity_score = 0
+        elif current_ratio >= 1:
+            liquidity_score = 15
+        else:
+            liquidity_score = 30
+            
+        # Calculate final score
+        final_score = debt_score + size_score + liquidity_score
+        
+        return max(0, min(100, final_score))
+        
     except Exception as e:
         st.warning(f"Credit rating calculation limited: {e}")
-        return 50  # Return neutral score on error
+        return 50
 
 def get_macro_risk_score(info):
-    """Calculate macro risk score using market indicators"""
+    """Calculate macro risk score (0-100, where higher = more risk)"""
     try:
-        # Get relevant market indicators
         beta = info.get('beta', 1)
         sector = info.get('sector', '').lower()
-        
-        # Get market cap
         market_cap = info.get('marketCap', 0)
         
-        # Calculate base score using beta (inverse relationship)
-        beta_score = 100 * (1 - min(abs(beta - 1), 1))
+        # Higher beta deviation from 1 = higher risk
+        beta_score = 100 * min(abs(beta - 1), 1)
         
-        # Adjust for market cap (larger companies typically have lower macro risk)
-        size_score = 0
+        # Smaller companies = higher risk
+        size_score = 100
         if market_cap > 200e9:  # Large cap
-            size_score = 100
-        elif market_cap > 10e9:  # Mid cap
-            size_score = 75
-        elif market_cap > 2e9:  # Small cap
-            size_score = 50
-        else:  # Micro cap
             size_score = 25
+        elif market_cap > 10e9:  # Mid cap
+            size_score = 50
+        elif market_cap > 2e9:  # Small cap
+            size_score = 75
             
         # Sector risk adjustment
         sector_adjustment = 0
@@ -442,11 +469,11 @@ def get_macro_risk_score(info):
         volatile_sectors = ['energy', 'materials', 'cryptocurrencies']
         
         if any(s in sector for s in defensive_sectors):
-            sector_adjustment = 10
+            sector_adjustment = -10
         elif any(s in sector for s in cyclical_sectors):
             sector_adjustment = 0
         elif any(s in sector for s in volatile_sectors):
-            sector_adjustment = -10
+            sector_adjustment = 10
             
         # Calculate final score
         final_score = (beta_score * 0.4 + size_score * 0.4) + sector_adjustment
@@ -455,21 +482,21 @@ def get_macro_risk_score(info):
         return 50
 
 def calculate_financial_risk_score(symbol):
-    """Calculate overall financial risk score"""
+    """Calculate overall financial risk score where higher scores indicate higher risk"""
     try:
         stock = yf.Ticker(symbol)
         info = stock.info
         
-        # Calculate individual components
-        volatility_score = calculate_stock_volatility(symbol)
-        de_ratio = info.get('debtToEquity', 0) / 100  # Convert from percentage
-        de_score = calculate_de_ratio_score(de_ratio)
-        interest_coverage_score = calculate_interest_coverage(info)
-        liquidity_score = calculate_liquidity_ratio(info)
-        credit_rating_score = get_credit_rating_score(info)
-        macro_risk_score = get_macro_risk_score(info)
+        # All scores now directly represent risk (0=low risk, 100=high risk)
+        scores = {
+            'Stock Volatility': calculate_stock_volatility(symbol),
+            'Debt-to-Equity': calculate_de_ratio_score(info.get('debtToEquity', 0) / 100),
+            'Interest Coverage': calculate_interest_coverage(info),
+            'Credit Rating': get_credit_rating_score(info),
+            'Liquidity': calculate_liquidity_ratio(info),
+            'Macro Risk': get_macro_risk_score(info)
+        }
         
-        # Calculate weighted score
         weights = {
             'Stock Volatility': 0.10,
             'Debt-to-Equity': 0.10,
@@ -477,15 +504,6 @@ def calculate_financial_risk_score(symbol):
             'Credit Rating': 0.10,
             'Liquidity': 0.05,
             'Macro Risk': 0.05
-        }
-        
-        scores = {
-            'Stock Volatility': volatility_score,
-            'Debt-to-Equity': de_score,
-            'Interest Coverage': interest_coverage_score,
-            'Credit Rating': credit_rating_score,
-            'Liquidity': liquidity_score,
-            'Macro Risk': macro_risk_score
         }
         
         total_score = sum(score * weights[metric] for metric, score in scores.items())
@@ -541,10 +559,10 @@ def create_component_chart(scores, weights):
     components = list(scores.keys())
     values = list(scores.values())
     
-    # Create color scale based on scores
-    colors = ['rgba(220, 53, 69, 0.8)' if v < 33 else
-              'rgba(255, 193, 7, 0.8)' if v < 66 else
-              'rgba(40, 167, 69, 0.8)' for v in values]
+    # Create color scale based on scores - higher risk should be red
+    colors = ['rgba(40, 167, 69, 0.8)' if v < 33 else  # Green for low risk (0-33)
+              'rgba(255, 193, 7, 0.8)' if v < 66 else  # Yellow for medium risk (33-66)
+              'rgba(220, 53, 69, 0.8)' for v in values]  # Red for high risk (66-100)
     
     fig = go.Figure(go.Bar(
         x=values,
@@ -552,7 +570,8 @@ def create_component_chart(scores, weights):
         orientation='h',
         marker_color=colors,
         text=[f'{v:.1f}%' for v in values],
-        textposition='auto',
+        textposition='outside',  # Changed to 'outside' to always show text
+        textfont=dict(color='white'),  # Ensure text is visible
     ))
     
     fig.update_layout(
@@ -563,8 +582,8 @@ def create_component_chart(scores, weights):
         height=400,
         margin=dict(l=30, r=30, t=50, b=30),
         xaxis=dict(
-            title='Score',
-            range=[0, 100],
+            title='Risk Score',
+            range=[-5, 105],  # Adjusted range to show 0% scores clearly
             gridcolor='rgba(255, 255, 255, 0.1)',
             zerolinecolor='rgba(255, 255, 255, 0.1)'
         ),
@@ -572,7 +591,8 @@ def create_component_chart(scores, weights):
             title='Component',
             gridcolor='rgba(255, 255, 255, 0.1)',
             zerolinecolor='rgba(255, 255, 255, 0.1)'
-        )
+        ),
+        bargap=0.3  # Add some gap between bars
     )
     return fig
 
