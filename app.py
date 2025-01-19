@@ -763,6 +763,12 @@ def main():
             label_visibility="collapsed"
         )
         fetch_button = st.button("🔄 Analyze", use_container_width=True)
+
+    tab1, tab2 = st.tabs([
+        "Market-Based Financial Risk (MFRS)",
+        "PPA Contract Analysis (CRS)"
+    ])
+
     
     if fetch_button:
         with st.spinner("Analyzing market sentiment..."):
