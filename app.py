@@ -751,16 +751,27 @@ Severity: {risk['severity']}
         return None, None
 
 def main():
-    st.markdown('<h1 style="color: white;">🔍 AI PPA Financial Risk Dashboard</h1>', unsafe_allow_html=True)
+    # Center-aligned title with custom CSS
+    st.markdown("""
+        <h1 style='text-align: center; color: white; margin-bottom: 30px;'>
+            🔍 AI PPA Financial Risk Dashboard
+        </h1>
+    """, unsafe_allow_html=True)
     
-    # Stock Analysis Section First
+    # Initialize session state for storing analysis results
+    if 'mfrs_results' not in st.session_state:
+        st.session_state.mfrs_results = None
+    if 'crs_results' not in st.session_state:
+        st.session_state.crs_results = None
+    
+    # Stock Analysis Section with better layout
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         symbol = st.text_input(
             label="Stock Symbol",
             value="FSLR",
-            placeholder="Enter Company Stock Symbol",
-            label_visibility="collapsed"
+            placeholder="Enter Company Stock Symbol (e.g., FSLR)",
+            help="Enter the stock ticker symbol of the company you want to analyze"
         )
         fetch_button = st.button("🔄 Analyze", use_container_width=True)
 
