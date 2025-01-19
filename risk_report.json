@@ -1,0 +1,410 @@
+{
+    "summary": {
+        "total_risks": 55,
+        "high_severity": 20,
+        "medium_severity": 34,
+        "low_severity": 1
+    },
+    "risks_by_category": {
+        "financial": {
+            "count": 21,
+            "risks": [
+                {
+                    "description": "Uncertainty in the regulatory environment and the recognition of Emission Reduction (ER) rights.",
+                    "severity": "HIGH",
+                    "contract_section": "Risk Box 2 - Regulatory and Sovereign Risks",
+                    "relevant_text": "However, where the Seller sells ERs outside such frameworks on a purely speculative basis, there is no certainty that they will be recognised or have any value under future legal systems. This means that there is a risk not only that they may have no value, but that if they do have value, those property rights may be expropriated by host country governments.",
+                    "mitigation": "Include clauses that address the scenario where the ERs are not recognized by future legal systems, potentially with a price adjustment or termination clause. Diversify the portfolio of ERs to reduce exposure to single-region regulatory changes."
+                },
+                {
+                    "description": "Risk of changes in verification requirements or discount formulas impacting the value of ERs.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.6 Calculation of Emissions Reduction",
+                    "relevant_text": "(i) The exact number of tonnes actually achieved will depend on how science changes or if the relevant authorities adopt different verification requirements or discount formulae.",
+                    "mitigation": "Include a 'reopener' clause permitting recalculation of tonnes if authorities change standards. Specify measurement and assurance standards to be used. Consider an independent verification body."
+                },
+                {
+                    "description": "Risk that the Buyer assumes the risk of devaluation due to changes in law.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Risk Box 2 - Regulatory and Sovereign Risks",
+                    "relevant_text": "(i) Where the Buyer assumes the risk of devaluation or other loss to due to a change in the law, court action or similar, the contract may set out that at what point the Buyer assumes the risk.",
+                    "mitigation": "Clearly define at which point the buyer assumes the risk. Explore insurance products that can hedge against such devaluation risks."
+                },
+                {
+                    "description": "Risk of restrictions on dealing with ERs imposed by future legislation.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Risk Box 2 - Regulatory and Sovereign Risks",
+                    "relevant_text": "(ii) While future legislation may allow for the creation of ERs, it is possible that in some cases restrictions will be placed on dealing in them, for",
+                    "mitigation": "Include clauses that address the scenario where restrictions on dealing with ERs are put in place, potentially with a price adjustment or alternative means of fulfillment of the agreement."
+                },
+                {
+                    "description": "Timing risk of ER delivery impacting the buyer's ability to resell.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.5 Delivery",
+                    "relevant_text": "(i) It is necessary to determine when the defined rights will accrue to the Buyer. The question of timing both of accrual and delivery is highly important to the potential value of ERs, and the Buyer's capacity to on sell either the base product or a derivative.",
+                    "mitigation": "Include clauses that define the delivery date and/or trigger event clearly. Consider a grace period.  Consider penalties for late delivery."
+                },
+                {
+                    "description": "Risk that ERs may not be fungible across different domestic and international regimes.",
+                    "severity": "LOW",
+                    "contract_section": "Risk Box 2 - Regulatory and Sovereign Risks",
+                    "relevant_text": "o fungibility between domestic and international regimes.",
+                    "mitigation": "Seek ERs that have a higher probability of cross-regime recognition.  Include provisions to ensure that any ERs sold have transfer capabilities to allow buyer to use them in intended compliance regimes"
+                },
+                {
+                    "description": "Payment not occurring upon execution of the contract exposes the seller to credit risk.",
+                    "severity": "HIGH",
+                    "contract_section": "Price and Terms of Payment",
+                    "relevant_text": "(e) Credit risk should be addressed, particularly if payment does not occur on execution of the contract.",
+                    "mitigation": "Require a letter of credit or other form of guarantee if payment is not upfront. Implement a robust due diligence process on the buyer's financial capacity."
+                },
+                {
+                    "description": "Payment may be contingent on a future event, which introduces risk if that event does not occur or is delayed.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Price and Terms of Payment",
+                    "relevant_text": "(c) The terms of payment need to be clearly stipulated in the contract. They may take several forms, for example: (iii) payment on the occurrence of a future event, eg the ratification of the protocol.",
+                    "mitigation": "Include a clearly defined timeframe and a backup payment structure if the future event is delayed or not met. Consider using an escrow service."
+                },
+                {
+                    "description": "The price for ERs may vary depending on the vintage or type of ERs leading to potential disputes if not clearly defined.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Price and Terms of Payment",
+                    "relevant_text": "(a) The contract should set out the price to be paid for the ERs. The price may vary for different vintages of ER rights or different types of ERs, for example absolute sector UK Allowances versus relative sector UK Allowances, or Australian wind farm RECs versus wood waste RECs.",
+                    "mitigation": "Clearly define the price for each type of ER, including all characteristics used to differentiate them such as vintage, source and other relevant attributes in the agreement to avoid future conflict."
+                },
+                {
+                    "description": "Late payment or non-payment can create cash flow risks, particularly for the seller.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Price and Terms of Payment",
+                    "relevant_text": "(f) Issues such as penalties for late payments, increases for inflation and other charge related items will also need to be included in the calculation of payment quantities.",
+                    "mitigation": "Include penalty clauses for late payments and set clear deadlines. Consider using a payment schedule that reflects project delivery milestones."
+                },
+                {
+                    "description": "The contract might fail to consider payment responsibilities for transfer fees, charges, and other relevant costs.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Price and Terms of Payment",
+                    "relevant_text": "(f) In particular, it should be made clear who is responsible for the payment of any fees, charges and costs connected with the transfer of the ERs to the Buyer.",
+                    "mitigation": "Explicitly define who bears responsibility for all fees, charges, and costs associated with the transfer of ERs to prevent any misunderstandings."
+                },
+                {
+                    "description": "Taxes and charges can affect the final price of the ERs and impact profitability.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Price and Terms of Payment",
+                    "relevant_text": "(d) The issue of taxation should be dealt with, for example is the price inclusive or exclusive of goods and services tax, and what of other charges? This issue may be dealt with in the payment clause or in a separate and more extensive clause (see \u201cTaxes, Levies and Charges\u201d)",
+                    "mitigation": "Clarify if the price is inclusive or exclusive of taxes. Identify responsibility for all forms of taxes and charges applicable to the transaction."
+                },
+                {
+                    "description": "Seller financial instability leading to non-delivery of ERs",
+                    "severity": "HIGH",
+                    "contract_section": "4.1 Parties",
+                    "relevant_text": "(c) Consider seeking parent company guarantees or other forms of security for Sellers who are small, illiquid or new subsidiaries.",
+                    "mitigation": "Mandate parent company guarantees or other suitable financial securities for sellers identified as high-risk (small, illiquid or new subsidiaries) during due diligence. Negotiate milestones linked to payment and delivery, or a letter of credit guaranteeing performance."
+                },
+                {
+                    "description": "Risk of security granted over ER rights, impacting buyer's claim",
+                    "severity": "HIGH",
+                    "contract_section": "4.9 Warranties and Representations",
+                    "relevant_text": "(a) The ER contract should include a number of warranties relating to: (i) title to the ER, potentially also including a warranty that no security has been granted over the rights;",
+                    "mitigation": "Include a strong warranty explicitly stating that no security interests exist over the ERs and conduct thorough due diligence. A clause mandating the seller to notify the buyer of any future security interests should be in place."
+                },
+                {
+                    "description": "Uncertainty of ER creation leading to non-delivery",
+                    "severity": "HIGH",
+                    "contract_section": "4.9 Warranties and Representations",
+                    "relevant_text": "(a) The ER contract should include a number of warranties relating to: (ii) creation of the ERs (particularly important where they do not exist at the time of contracting);",
+                    "mitigation": "Structure payments tied to specific performance milestones related to the creation of ERs, not just initial purchase. Include penalties for non-creation of ERs. Escrow mechanisms for large financial transaction can also help mitigate risk of non-delivery of ERs. Regular monitoring of ER creation progress is also important."
+                },
+                {
+                    "description": "Risk of encumbrances or conflicting dealings on ER rights",
+                    "severity": "HIGH",
+                    "contract_section": "4.9 Warranties and Representations",
+                    "relevant_text": "(a) The ER contract should include a number of warranties relating to: (iii) rights being free of any encumbrance or other dealings;",
+                    "mitigation": "Include a robust warranty confirming the absence of encumbrances or competing claims.  Implement a due diligence process including checks on seller's claims, and include a clause specifying consequences for seller if this warranty is breached, potentially including indemnification obligations."
+                },
+                {
+                    "description": "Seller using the activity to generate other forms of ERs resulting in double counting",
+                    "severity": "HIGH",
+                    "contract_section": "4.9 Warranties and Representations",
+                    "relevant_text": "(a) The ER contract should include a number of warranties relating to: (iv) certainty that the activity has not been used to generate any other form of ER;",
+                    "mitigation": "Include a warranty that the emission reduction activity has not been used to generate any other form of emission reduction credits. Include provisions for independent verification and audit rights to ensure compliance."
+                },
+                {
+                    "description": "Risk of ERs not being valid",
+                    "severity": "HIGH",
+                    "contract_section": "4.9 Warranties and Representations",
+                    "relevant_text": "(a) The ER contract should include a number of warranties relating to: (v) validity of the rights;",
+                    "mitigation": "Due diligence should be performed to ensure the validity of the rights. The contract should specify standards and processes of validity, and should include an indemnification clause for ERs that later prove to be invalid."
+                },
+                {
+                    "description": "Risk of reversals of emission reduction and thus loss of ERs",
+                    "severity": "HIGH",
+                    "contract_section": "4.9 Warranties and Representations",
+                    "relevant_text": "(a) The ER contract should include a number of warranties relating to: (vi) that the reduction is permanent;",
+                    "mitigation": "Include a warranty that the reduction is permanent, and include provisions for monitoring, verification, and potential replacement of ERs that are lost through reversals."
+                },
+                {
+                    "description": "Potential limitations on liability limiting recourse in case of breach",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.10 Liability and Indemnities",
+                    "relevant_text": "(a) The parties will have to determine to what extent if any the liability of either or both of them should be limited.",
+                    "mitigation": "Negotiate for clear and balanced liability provisions that do not unduly limit either party's recourse in the event of breaches or non-performance.  Ensure key performance indicators are established and damages clauses address specific breaches."
+                },
+                {
+                    "description": "Waiver of consequential damages limiting financial recovery",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.10 Liability and Indemnities",
+                    "relevant_text": "(b) The contract may include a waiver of \u201cspecial\u201d damages, whereby neither party is entitled to consequential, incidental, punitive, exemplary, indirect damages, lost profits or business interruption damages.",
+                    "mitigation": "Negotiate to limit the scope of any waiver of special damages, ensuring that foreseeable losses directly resulting from a breach are not excluded, or to have a liquidated damage clause that covers such losses."
+                }
+            ]
+        },
+        "governance": {
+            "count": 15,
+            "risks": [
+                {
+                    "description": "Risk of non-compliance with local laws, including taxation and corporate securities law.",
+                    "severity": "HIGH",
+                    "contract_section": "5. Domestic Laws",
+                    "relevant_text": "Finally, it is critical that any ER contracts comply with all local laws. In particular this includes taxation and corporate securities law.",
+                    "mitigation": "Conduct thorough due diligence on all applicable local laws, engage legal counsel with expertise in relevant jurisdictions, and include specific clauses allocating responsibility for compliance and costs arising from changes in law. Regularly monitor changes in laws."
+                },
+                {
+                    "description": "Risk of regulatory changes impacting the trading of renewable energy rights.",
+                    "severity": "HIGH",
+                    "contract_section": "5. Domestic Laws",
+                    "relevant_text": "For example, the trading of future renewable energy rights under standard form contracts is regulated in Australia by the Corporations Act.",
+                    "mitigation": "Include a robust 'change in law' clause that addresses potential impacts on contract performance, pricing mechanisms, or obligations. Consider including options for renegotiation, termination, or adjustment of responsibilities in the event of significant regulatory changes. Regularly review regulatory landscape."
+                },
+                {
+                    "description": "Risk of competing claims, access rights, and permanence issues related to third parties.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Page 17 of 20 (c)",
+                    "relevant_text": "In light of the fact that the contracting parties are unlikely to have a contractual relationship with third parties, in certain situations it will be necessary to consider competing claims, access rights and permanence issues.",
+                    "mitigation": "Conduct thorough due diligence on third-party rights and potential claims. Obtain necessary assurances from relevant third parties regarding access and permanence. Include indemnification clauses to protect against third-party claims."
+                },
+                {
+                    "description": "Lack of specific reporting frequency and content can lead to inadequate monitoring of the seller's performance.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.12 Progress Reports and Audit Rights",
+                    "relevant_text": "regular progress reports and/or audit rights may be the only reasonable way for the Buyer to be able to assess whether the Seller will be able to perform.",
+                    "mitigation": "Specify the frequency (e.g., monthly, quarterly) and content of progress reports, including key performance indicators (KPIs) and milestones. Define the audit rights and the process to be followed, including timelines for response to findings."
+                },
+                {
+                    "description": "Unclear criteria for 'unsatisfactory' reports can lead to disputes and difficulties in termination.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.12 Progress Reports and Audit Rights",
+                    "relevant_text": "The Buyer should be given the right to terminate the contract in the event that reports prove unsatisfactory.",
+                    "mitigation": "Define specific, measurable criteria that constitute an 'unsatisfactory' report, potentially linking to KPIs. Include a process for the Seller to rectify issues before termination can occur."
+                },
+                {
+                    "description": "Undefined confidential information scope can lead to disputes and breaches.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.13 Confidentiality",
+                    "relevant_text": "The parties will have to determine what constitutes confidential information in respect of the agreement, and define this clearly.",
+                    "mitigation": "Clearly define what information is considered confidential, and specify the conditions for disclosure and usage. Include specific clauses on data protection and handling of personal information if relevant."
+                },
+                {
+                    "description": "Lack of clarity on whether confidentiality is mutual can lead to uneven obligations and risk.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.13 Confidentiality",
+                    "relevant_text": "A decision will need to be taken as to whether the confidentiality obligations should be made mutual or should fall only on one party.",
+                    "mitigation": "Specify clearly if confidentiality obligations are mutual or if they are solely on one party. If mutual, specify the obligations for both parties"
+                },
+                {
+                    "description": "Unclear dispute resolution procedures may cause delays and costs.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.14 Arbitration and Dispute Resolution",
+                    "relevant_text": "it is important that procedures for dispute resolution are set out in the contract.",
+                    "mitigation": "Specify a clear dispute resolution process, including timelines, stages of escalation, and arbitration details such as rules, venue, and language. Consider specific expertise required of arbitrators in the emissions trading space."
+                },
+                {
+                    "description": "Lack of specific warranties could result in buyer acquiring invalid or encumbered rights.",
+                    "severity": "HIGH",
+                    "contract_section": "4.9 Warranties and Representations",
+                    "relevant_text": "The ER contract should include a number of warranties relating to: (i) title to the ER... (v) validity of the rights...",
+                    "mitigation": "Explicitly list all warranties the seller provides regarding the ERs, including title, creation, encumbrances, usage, validity, permanence, and compliance with standards. Clearly define implications of breach of warranties, including recourse for the buyer."
+                },
+                {
+                    "description": "Timing of representations not defined may impact enforceability of warranties.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.9 Warranties and Representations",
+                    "relevant_text": "Timing of representations will also be an issue for the parties to address.",
+                    "mitigation": "Clearly specify whether the warranties are made upon signing the agreement only, or if they also apply to each transaction throughout the entire term of the agreement."
+                },
+                {
+                    "description": "Unclear allocation of liability could lead to financial risks.",
+                    "severity": "MEDIUM",
+                    "contract_section": "4.10 Liability and Indemnities",
+                    "relevant_text": "The parties will have to determine to what extent if any the liability of either or both of them should be limited.",
+                    "mitigation": "Clearly define the liability limits of each party and which party is responsible for what. Specify the process for indemnifying the buyer for losses arising from seller's breach or inaccurate information."
+                },
+                {
+                    "description": "Lack of clarity on decision-making for managing shortfalls of ERs. While options are mentioned, the contract doesn't specify which party decides which mechanism to employ (physical replacement, payment, step-in rights, lien).",
+                    "severity": "MEDIUM",
+                    "contract_section": "Shortfall or Failure to Deliver",
+                    "relevant_text": "(ii) There should be an option to manage shortfalls under the contract through mechanisms such as: (A) physical replacement of the volume of the shortfall of ERs from other projects or from future years. (B) payment to the Buyer the greater value of: repayment of any up-front payment monies; or the cost to the Buyer of purchasing replacement ERs. (C) project step-in rights so that the Buyer has the ability to run the project and generate the ERs (this is less appropriate in projects where ERs are simply a by-product of a much larger business). (D) lien on other assets, particularly in cases of potential insolvency.",
+                    "mitigation": "Specify in the contract who has the authority to decide which mechanism is used in case of a shortfall, and outline a process for making this decision (e.g., mutual agreement, buyer's right, etc.)"
+                },
+                {
+                    "description": "Unclear responsibility for managing the process and costs related to initial and ongoing validation of the project and third-party verification, leading to potential disputes.",
+                    "severity": "HIGH",
+                    "contract_section": "Documentation",
+                    "relevant_text": "(iii) The contract must make clear who is to be responsible for carrying out initial and ongoing validation of the project, and for the associated costs. It should also specify whether third party verification is required, and if so, outline the criteria for this.",
+                    "mitigation": "Clearly state which party is responsible for validation, verification, and associated costs. Define a decision-making process for selecting verifiers, and define acceptance criteria for validation reports."
+                },
+                {
+                    "description": "Potential for disagreement and delays if the contract doesn't pre-agree the terms and conditions to be used with third-party verifiers, potentially leading to disputes.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Baseline Measurement, Verification and Certification",
+                    "relevant_text": "(iii) It may be advisable to set out in appendices to the contract the terms and conditions that are to be used in the contract with the third party verifier and the wording of the opinions that are to be issued by the validator and verifier (where these matters are not expressly provided for in the legislation/regime - if any- for the emissions reductions being transacted). This includes dealing with liability and insurance issues.",
+                    "mitigation": "Include the terms and conditions for the third-party verifier as an appendix to the contract, outlining the scope of work, liability, and insurance requirements, and process for resolution if these are not fulfilled."
+                },
+                {
+                    "description": "Lack of a mechanism for handling disputes arising from discrepancies in scientific processes used to quantify and verify ERs. This could lead to disagreements over the actual amount of ERs produced.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Changes to the Scientific Processes for Quantifying and Verifying ERs",
+                    "relevant_text": "(i) The scientific processes employed to quantify and verify ERs may not always produce the result desired by the contracting parties. Any project may produce more or less tonnes of ERs than expected. In addition, the amount of ERs produced may differ if the measurement",
+                    "mitigation": "Establish a clear protocol for handling discrepancies in ER quantification, including independent review processes and dispute resolution mechanisms."
+                }
+            ]
+        },
+        "sentiment": {
+            "count": 19,
+            "risks": [
+                {
+                    "description": "Legislative changes (domestic and international) may impact the creation or transfer of ERs, potentially leading to a force majeure event.",
+                    "severity": "MEDIUM",
+                    "contract_section": "(v) Delivery mechanisms for future rights",
+                    "relevant_text": "Delivery mechanisms for future rights need to take into account possible legislative changes (both domestic and international) which may impact upon both the creation of the rights, and the process for their transfer.",
+                    "mitigation": "Include a specific clause outlining the handling of legislative changes that could impact ER delivery, potentially including a process for renegotiation or compensation."
+                },
+                {
+                    "description": "The text alludes to the possibility of force majeure events without explicitly defining them. This lack of clarity creates a risk of disputes regarding what constitutes a valid force majeure claim.",
+                    "severity": "HIGH",
+                    "contract_section": "(iv) Whether the right is an existing or a future right will also be of significance.",
+                    "relevant_text": "While certain changes can be accommodated, others may result in a force majeure event.",
+                    "mitigation": "The contract needs a clear and comprehensive definition of force majeure. This should include a list of qualifying events and the specific procedures to follow when such an event occurs."
+                },
+                {
+                    "description": "The contract briefly mentions 'competing claims, access rights, and permanence issues' related to third parties. The lack of specific definitions and mitigation strategies creates risks regarding the delivery of ERs and potential force majeure implications. ",
+                    "severity": "MEDIUM",
+                    "contract_section": "(c) In light of the fact that the contracting parties are unlikely to have a contractual relationship with third parties",
+                    "relevant_text": "In light of the fact that the contracting parties are unlikely to have a contractual relationship with third parties, in certain situations it will be necessary to consider competing claims, access rights and permanence issues. Any risks imposed could be dealt with by way of due diligence and through attaining assurances from the third party.",
+                    "mitigation": "Define 'competing claims', 'access rights', and 'permanence issues' more explicitly. Establish clear due diligence requirements and recourse options if these issues impact ER delivery. Specify how such third party related risks will be classified as force majeure events, if applicable."
+                },
+                {
+                    "description": "The document implicitly suggests that project related shortfalls, such as those from renewable projects with no variable generation, could lead to potential shortfalls without clearly linking them to force majeure. This requires a more precise approach when determining if these shortfalls should be classified as force majeure related or not.",
+                    "severity": "MEDIUM",
+                    "contract_section": "(c) Shortfall or Failure to Deliver",
+                    "relevant_text": "This is particularly important in renewable energy projects which may have no variable generation or with technologies that require regular maintenance and go off-line.",
+                    "mitigation": "Clarify whether or not project maintenance related shortfalls or those related to renewable project variability will be treated under force majeure or as general delivery risks. Develop a clear definition of acceptable downtime and the consequences of excessive downtime. Establish a framework for how such risks should be handled, including potential compensation mechanisms and alternatives to force majeure claims."
+                },
+                {
+                    "description": "Seller fails to deliver the Emission Reduction (ER) rights.",
+                    "severity": "HIGH",
+                    "contract_section": "Default, Termination and Remedies",
+                    "relevant_text": "(i) where the Seller fails to deliver the ER rights;",
+                    "mitigation": "Implement mechanisms for monitoring delivery progress, establish clear penalties for non-delivery, and potentially require a performance bond."
+                },
+                {
+                    "description": "Buyer fails to make payment when due.",
+                    "severity": "HIGH",
+                    "contract_section": "Default, Termination and Remedies",
+                    "relevant_text": "(ii) where the Buyer fails to make a payment when due;",
+                    "mitigation": "Establish clear payment terms, consider using letters of credit or escrow accounts, and outline specific consequences for late payments, including interest charges."
+                },
+                {
+                    "description": "Seller breaches a warranty or representation, or a warranty proves to be materially false when made.",
+                    "severity": "HIGH",
+                    "contract_section": "Default, Termination and Remedies",
+                    "relevant_text": "(iii) where the Seller breaches a warranty or a representation or a warranty proves to have been materially false when made;",
+                    "mitigation": "Conduct thorough due diligence on seller's representations and warranties. Require representations and warranties to be specific and supported by evidence. Include indemnification provisions for breaches of warranties."
+                },
+                {
+                    "description": "Seller fails to comply with validation/verification obligations.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Default, Termination and Remedies",
+                    "relevant_text": "(iv) where the Seller fails to comply with his validation / verification obligations;",
+                    "mitigation": "Establish clear validation and verification procedures, define timelines, and specify penalties for failing to meet these obligations. Regularly review the validation/verification process and the seller's compliance."
+                },
+                {
+                    "description": "Failure to secure host country government approval.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Default, Termination and Remedies",
+                    "relevant_text": "(v) failure to secure host country government approval;",
+                    "mitigation": "Conduct upfront due diligence on necessary governmental approvals, define timelines, and have contingency plans in place for potential delays or refusals of approvals. Include conditions precedent."
+                },
+                {
+                    "description": "Failure to satisfy requirements in Kyoto Protocol for CDM or JI projects.",
+                    "severity": "HIGH",
+                    "contract_section": "Default, Termination and Remedies",
+                    "relevant_text": "(vi) failure to satisfy requirements in Kyoto Protocol for CDM or JI projects.",
+                    "mitigation": "Require seller to provide evidence of compliance with Kyoto Protocol requirements, and include specific warranties and indemnities related to compliance with the Kyoto Protocol. Regular independent audits could be considered."
+                },
+                {
+                    "description": "Contract may not provide exclusive remedies for events of default, meaning other remedies at law or equity may be sought.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Default, Termination and Remedies",
+                    "relevant_text": "(e) The issue of exclusivity must also be considered, namely: (i) are the contract remedies exclusive remedies for events of default?; or (ii) are the contract remedies in addition to any other remedy available at law or equity?",
+                    "mitigation": "Explicitly define whether remedies within the contract are exclusive or if parties may seek other remedies outside the contract. Clearly defining the preferred remedies in the contract helps to avoid disputes."
+                },
+                {
+                    "description": "Shortfall or failure to deliver ERs, especially in renewable energy projects.",
+                    "severity": "HIGH",
+                    "contract_section": "Shortfall or Failure to Deliver",
+                    "relevant_text": "(i) In order to secure and then transact the ERs, the Seller will need to put in place appropriate arrangements to ensure that, where contracted, the specified quantity of ERs is indeed delivered. This is particularly important in renewable energy projects which may have no variable generation or with technologies that require regular maintenance and go off-line.",
+                    "mitigation": "Establish clear delivery timelines and quantities. Contractually ensure appropriate arrangements by the seller to deliver the ERs. Implement robust monitoring systems,  include mechanisms for replacing shortfalls, and specify disincentives for under-delivery."
+                },
+                {
+                    "description": "Seller might sell ERs elsewhere and repay sale monies to avoid contractual obligations.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Shortfall or Failure to Deliver",
+                    "relevant_text": "However, it is important that some form of disincentive exists to prevent the Seller later selling the ERs at a higher price to another party and then simply repaying the sale monies.",
+                    "mitigation": "Include a liquidated damages clause or other significant disincentive to discourage the seller from selling the ERs to a third party. This might include a significant penalty, or specific performance clause."
+                },
+                {
+                    "description": "Delivery mechanisms for future rights may be impacted by legislative changes (both domestic and international).",
+                    "severity": "MEDIUM",
+                    "contract_section": "Title, Delivery, Future Rights",
+                    "relevant_text": "(v) Delivery mechanisms for future rights need to take into account possible legislative changes (both domestic and international) which may impact upon both the creation of the rights, and the process for their transfer.",
+                    "mitigation": "Include force majeure clauses that specifically address legislative changes, include regular monitoring for possible legislative changes and have contingency plans to accommodate changes in legislation that may impact the delivery or transfer of ERs."
+                },
+                {
+                    "description": "Uncertainty in dispute resolution due to lack of familiarity with ER project technicalities in judicial systems.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Arbitration and Dispute Resolution",
+                    "relevant_text": "At least for the time being it is not clear that the judicial system in most countries will be sufficiently familiar with the technicalities of ER projects to provide cost effective resolution of disputes.",
+                    "mitigation": "Prioritize alternative dispute resolution methods like arbitration with specialized experts or develop a custom dispute resolution process."
+                },
+                {
+                    "description": "Potential for disputes over the place of arbitration and the arbitration system when parties are in different countries.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Arbitration and Dispute Resolution",
+                    "relevant_text": "If the parties do nevertheless choose to resolve disputes via official arbitration proceedings binding upon them, the place of the arbitration and the arbitration system to be used should be set out in the contract, particularly where the country of the two contracting parties differs.",
+                    "mitigation": "Clearly define the place of arbitration and the specific arbitration rules or system to be used within the contract itself."
+                },
+                {
+                    "description": "Risk of being locked into a long-term contract with a non-performing seller.",
+                    "severity": "HIGH",
+                    "contract_section": "Progress Reports and Audit Rights",
+                    "relevant_text": "Otherwise, the Buyer may be locked into a long term contract with no way to terminate, even if it appears that the Seller will not be able to perform.",
+                    "mitigation": "Ensure regular and thorough progress reports and audit rights are included and linked to specific performance and termination clauses."
+                },
+                {
+                    "description": "Risk of disputes arising from broad definitions of the purchased rights from a buyer perspective.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Definitions",
+                    "relevant_text": "From a buyer's perspective, this means that broad definitions of what is being purchased reduce risk of non delivery and are therefore preferable.",
+                    "mitigation": "While broad definitions can reduce non-delivery risk, buyers should balance this with clear enough language so the parties agree on the specific rights."
+                },
+                {
+                    "description": "Risk of disputes due to narrow definitions of the purchased rights from a seller perspective.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Definitions",
+                    "relevant_text": "A seller may want a narrower definition to reduce the risk of open-ended onerous obligations.",
+                    "mitigation": "Sellers should ensure the definitions are not so narrow that they restrict their ability to meet obligations or create obligations difficult to meet."
+                }
+            ]
+        }
+    }
+}

@@ -973,12 +973,12 @@ def display_crs_analysis(json_filename):
         risk_report = json.load(f)
     
     # Calculate total risks and severity counts
-    total_risks = risk_report['summary']['total_risks']
-    high_risks = risk_report['summary']['high_severity']
-    medium_risks = risk_report['summary']['medium_severity']
-    low_risks = risk_report['summary']['low_severity']
+    total_risks = len(risk_report['risks'])
+    high_risks = sum(1 for risk in risk_report['risks'] if risk['severity'] == 'HIGH')
+    medium_risks = sum(1 for risk in risk_report['risks'] if risk['severity'] == 'MEDIUM')
+    low_risks = sum(1 for risk in risk_report['risks'] if risk['severity'] == 'LOW')
 
-    # Display company info and metrics in header row
+    # Display metrics in header row
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:

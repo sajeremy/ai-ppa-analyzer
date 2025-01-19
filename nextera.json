@@ -1,0 +1,354 @@
+{
+    "summary": {
+        "total_risks": 47,
+        "high_severity": 9,
+        "medium_severity": 34,
+        "low_severity": 4
+    },
+    "risks_by_category": {
+        "financial": {
+            "count": 15,
+            "risks": [
+                {
+                    "description": "Limitation of liability for losses, capped at the Final Purchase Price, except in cases of Fraud or specific liabilities listed in Schedule 1.9(a). This caps potential payouts but creates risk if actual losses surpass the price.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Generally. (a)",
+                    "relevant_text": "in no event shall either the Buyer Indemnified Parties, on the one hand, or the Seller Indemnified Parties, on the other hand, be entitled in the aggregate to recover Losses in excess of the Final Purchase Price, except in the event of Fraud or the Liabilities set forth in Schedule 1.9(a).",
+                    "mitigation": "Thorough due diligence to identify potential liabilities and their estimated value prior to the Final Purchase Price determination. Consider negotiating for a higher cap or specific carve-outs for critical risks."
+                },
+                {
+                    "description": "Exclusion of Losses already accounted for in the calculation of the Final Purchase Price. This requires careful review of the pricing model to ensure all potential losses are included.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Generally. (b)",
+                    "relevant_text": "Losses shall not include any amounts that were included in the calculation of the Final Purchase Price.",
+                    "mitigation": "Implement a rigorous process for determining the Final Purchase Price and ensure all known risks and losses are reflected, and clear documentation of how these were incorporated into the final pricing."
+                },
+                {
+                    "description": "Requirement to use 'commercially reasonable efforts' to mitigate losses. This is subjective and could lead to disputes on whether adequate mitigation efforts were taken.",
+                    "severity": "LOW",
+                    "contract_section": "Generally. (c)",
+                    "relevant_text": "Each of Buyer and Seller, as applicable, shall, and shall cause the Buyer Indemnified Parties and the Seller Indemnified Parties, as applicable, to use commercially reasonable efforts to take all reasonable steps to mitigate or otherwise reduce the amount of any Loss",
+                    "mitigation": "Document all mitigation efforts taken. Define 'commercially reasonable efforts' or use a more specific benchmark if possible.  Implement clear protocols for loss mitigation and tracking."
+                },
+                {
+                    "description": "Time limitation on claims relating to specific liabilities set forth in Schedule 1.9(a), limited to 3 years unless written notice was provided before.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 7.5 Notice of Loss; Third-Party Claims. (a)",
+                    "relevant_text": "the Seller Indemnified Parties shall be released from its obligations under this Article VII solely with respect to the Liabilities set forth in Schedule 1.9(a) after the third (3 ) anniversary of the Closing Date, other than with respect such Liabilities which a Buyer Indemnified Party provided written notice pursuant to this Section 7.5 prior to the third (3 ) anniversary of the Closing Date.",
+                    "mitigation": "Implement a comprehensive and rigorous post-closing review process, particularly focusing on liabilities outlined in Schedule 1.9(a) and promptly provide written notice of potential issues"
+                },
+                {
+                    "description": "Indemnifying party can assume control of the defense of a third party claim which limits control of the process. However, Indemnified Party can participate at its expense. Could cause conflict if the Indemnifying party is not motivated to reach a fair settlement.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 7.5 Notice of Loss; Third-Party Claims. (b)",
+                    "relevant_text": "The Indemnifying Party shall be entitled to assume and control the defense of such Third-Party Claim at its expense and through counsel of its choice if it, as a condition to the assumption, gives notice of its intention to do so to the Indemnified Party",
+                    "mitigation": "Negotiate for greater control over settlement of third party claims, or retain right to engage counsel of choice at indemnifying party's expense."
+                },
+                {
+                    "description": "Buyer's obligation to pay is not contingent on financing availability, creating risk for the Seller if Buyer cannot secure necessary funds.",
+                    "severity": "HIGH",
+                    "contract_section": "Preamble",
+                    "relevant_text": "Buyer acknowledges that receipt or availability of funds or financing by Buyer or any of its Affiliates shall not be a condition to Buyer\u2019s obligations hereunder",
+                    "mitigation": "Include a condition precedent requiring proof of financing or a deposit by the Buyer, or secure guarantees from a third party."
+                },
+                {
+                    "description": "The contract states buyer needs to have funds immediately available for Earnout payments but doesn't specify source and mechanism for verifying the availability of funds at required dates, exposing seller to risk if funds are not available.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Preamble",
+                    "relevant_text": "Buyer shall have funds immediately available to pay all of the Earnout Payments if and when required to be paid.",
+                    "mitigation": "Include a mechanism to verify the availability of funds for Earnout payments, such as requiring proof of funds in escrow or a letter of credit or a detailed description of the mechanism which indicates how funds will be made available on the required dates and penalty clauses for non-payment"
+                },
+                {
+                    "description": "Buyer's solvency is based on their representations and warranties being true and correct, which may not hold, thus leading to payment risk",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 4.6 Solvency.",
+                    "relevant_text": "Assuming the representations and warranties set forth in Article III are true and correct, immediately after giving effect to the Acquisition (including any financings to be undertaken in connection therewith), Buyer shall be solvent",
+                    "mitigation": "Seller should perform thorough due diligence on the Buyer and their financing, and could include guarantees from the buyer's parent company, or require a higher deposit or collateral."
+                },
+                {
+                    "description": "Limitation on Indemnification: The indemnification liability of both parties is capped at the Final Purchase Price except in cases of fraud and specific liabilities. This limits the potential recovery for losses, especially if they exceed the purchase price.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 7.4 Generally.",
+                    "relevant_text": "in no event shall either the Buyer Indemnified Parties, on the one hand, or the Seller Indemnified Parties, on the other hand, be entitled in the aggregate to recover Losses in excess of the Final Purchase Price, except in the event of Fraud or the Liabilities set forth in Schedule 1.9(a).",
+                    "mitigation": "Negotiate for a higher cap on indemnification or carve-outs for specific significant risks. Evaluate schedule 1.9(a) to understand the nature and magnitude of excluded liabilities. Insure against losses above the cap if possible."
+                },
+                {
+                    "description": "Indemnification liability of Seller is limited in time for certain liabilities. After the third anniversary of the closing date, Seller Indemnified Parties are released from obligations under Article VII relating to Liabilities set forth in Schedule 1.9(a) which presents the risk that some undiscovered liabilities may remain",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 7.5 Notice of Loss; Third-Party Claims.",
+                    "relevant_text": "provided, further, that notwithstanding anything contrary contained in this Agreement, the Seller Indemnified Parties shall be released from its obligations under this Article VII solely with respect to the Liabilities set forth in Schedule 1.9(a) after the third (3 ) anniversary of the Closing Date",
+                    "mitigation": "Negotiate for a longer period for seller indemnity liability. Seller should thoroughly assess potential liabilities which fall under Schedule 1.9(a). Negotiate for a clause where the clock of the indemnity liability starts only on the date on which the indemnified party is aware of any material breach."
+                },
+                {
+                    "description": "Indemnified Party's failure to provide notice of loss within a certain period can release Indemnifying Party from its obligations which presents a risk of loss of indemnity rights",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 7.5 Notice of Loss; Third-Party Claims.",
+                    "relevant_text": "provided, however, that the failure to provide such notice shall not release the Indemnifying Party from any of its obligations under this Article VII except to the extent that the Indemnifying Party is materially prejudiced by such failure",
+                    "mitigation": "Implement a strict internal system for detecting and reporting potential claims within the required timeframe. Have legal review potential claims as soon as practical."
+                },
+                {
+                    "description": "Buyer's obligation to close is not contingent on financing, meaning they must close even if they don't have the funds available. This places the seller at risk if buyer defaults after closing.",
+                    "severity": "HIGH",
+                    "contract_section": "Preamble",
+                    "relevant_text": "Buyer acknowledges that receipt or availability of funds or financing by Buyer or any of its Affiliates shall not be a condition to Buyer\u2019s obligations hereunder",
+                    "mitigation": "Include a clause specifying a significant break-up fee in case buyer cannot secure funding or a deposit as financial security."
+                },
+                {
+                    "description": "Buyer must have funds readily available for Earnout Payments, but there's no explicit collateral. This relies solely on Buyer's financial health.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Preamble",
+                    "relevant_text": "Buyer shall have funds immediately available to pay all of the Earnout Payments if and when required to be paid.",
+                    "mitigation": "Require an escrow account or a letter of credit to guarantee funds are available for Earnout Payments. Request financials and liquidity info from buyer."
+                },
+                {
+                    "description": "Solvency of the buyer is a statement contingent on the representations and warranties being true, but these may be difficult for the seller to verify independently, and could lead to post-closing problems if buyer is not as solvent as claimed. The seller may also want guarantees that the buyer will remain solvent through a certain period of time after closing.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 4.6 Solvency",
+                    "relevant_text": "Assuming the representations and warranties set forth in Article III are true and correct, immediately after giving effect to the Acquisition (including any financings to be undertaken in connection therewith), Buyer shall be solvent and will (a) be able to pay its debts as they become due, (b) own property that has a fair salable value greater than the amounts required to pay its debts and (c) have adequate capital to carry on its business.",
+                    "mitigation": "Require audited financials from the buyer. Include a clause where buyer warrants they will remain solvent and capitalize post-closing. The seller could also include covenants requiring the buyer to maintain certain solvency metrics for a specific period. "
+                },
+                {
+                    "description": "The R&W Insurance Policy is a draft, and its ultimate terms and coverage could present financial risk. A delay in the insurance being bound or if not bound in substantially similar form creates financial risks for the Seller",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 4.9 R&W Insurance Policy",
+                    "relevant_text": "Buyer has provided Seller with a draft R&W Insurance Policy to be bound promptly following the execution of this Agreement in substantially similar form.",
+                    "mitigation": "Require proof of binding the policy before closing. Include a condition precedent to closing tied to the buyer getting the policy in the agreed upon terms. Include representations from Buyer that there will be no material change to the terms of the R&W policy."
+                }
+            ]
+        },
+        "governance": {
+            "count": 18,
+            "risks": [
+                {
+                    "description": "Changes in general legal, regulatory, or political conditions after the date of the agreement are excluded from the definition of 'Material Adverse Effect'. This means that the Seller's obligation to close the deal is not affected by adverse legal or regulatory changes, potentially increasing the buyer's risk.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Definition of Material Adverse Effect",
+                    "relevant_text": "(d) changes in general legal, regulatory or political conditions after the date hereof;",
+                    "mitigation": "Include a clause allowing for termination of the agreement if specific detrimental regulatory changes occur, or negotiate a more favorable definition of Material Adverse Effect."
+                },
+                {
+                    "description": "Changes in GAAP, applicable Laws or accounting requirements are excluded from the definition of 'Material Adverse Effect', potentially putting the Buyer at risk from unforeseen changes to accounting rules.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Definition of Material Adverse Effect",
+                    "relevant_text": "(e) changes in GAAP, applicable Laws or any accounting requirements applicable to any industry in which the FS Development Platform operates or the interpretation of any of the foregoing after the date hereof;",
+                    "mitigation": "Include a clause specifically addressing accounting standard changes and their impact on financials. Or negotiate a more favorable definition of Material Adverse Effect."
+                },
+                {
+                    "description": "The definition of 'Laws' is very broad, encompassing any requirements from a 'Governmental Authority'. This could mean new regulations or laws could impact the project, but the agreement doesn't explicitly address change in law or its impact on the contract.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Definition of Laws",
+                    "relevant_text": "\u201cLaws\u201d means any laws (statutory, common or otherwise), constitutions, treaties, conventions, ordinances, codes, rules, regulations, Orders or other similar requirements enacted, adopted, promulgated or applied by a Governmental Authority.",
+                    "mitigation": "Include a clause that details how any change of law that could impact the project's viability, costs or timelines will be handled. This could include cost adjustments or termination clauses. Specific language should also be added to specify which governing body rules the transaction."
+                },
+                {
+                    "description": "The broad definition of 'Governmental Authority' could include international or non-local governing bodies that could impose new regulations. This could inadvertently put the buyer at risk from indirect regulatory actions from authorities they are not aware of.",
+                    "severity": "LOW",
+                    "contract_section": "Definition of Laws",
+                    "relevant_text": "\u201cLaws\u201d means any laws (statutory, common or otherwise), constitutions, treaties, conventions, ordinances, codes, rules, regulations, Orders or other similar requirements enacted, adopted, promulgated or applied by a Governmental Authority.",
+                    "mitigation": "Clarify definition to only include relevant governmental bodies with clear jurisdiction over the power purchase or project to reduce the risk of indirect exposure to foreign regulatory action."
+                },
+                {
+                    "description": "Limited Survival of Representations and Warranties: Most representations and warranties terminate at closing, limiting recourse for misrepresentations discovered post-closing.",
+                    "severity": "HIGH",
+                    "contract_section": "SECTION 7.1 Survival of Representations and Warranties and Covenants",
+                    "relevant_text": "(a) The representations and warranties set forth in Article III and Article IV shall terminate effective as of the Closing and shall not survive the Closing, and thereafter there shall be no liability on the part of, nor shall any claim be made by, either Party or its Affiliates with respect to the representations and warranties set forth in Article III and Article IV",
+                    "mitigation": "Negotiate for a longer survival period for key representations and warranties, especially those related to financial statements, compliance, and IP. Consider R&W insurance to cover potential breaches. Include specific indemnification provisions for significant areas of concern."
+                },
+                {
+                    "description": "Limited Survival of Covenants: Covenants requiring performance prior to the closing do not survive the closing.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 7.1 Survival of Representations and Warranties and Covenants",
+                    "relevant_text": "(b) (i) None of the covenants and agreements of the Parties herein, to the extent such covenant or agreement contemplates or requires performance prior to the Closing, shall survive, and all such covenants and agreements, including any Claim related thereto, shall terminate automatically upon, the Closing;",
+                    "mitigation": "Ensure that all critical pre-closing covenants are fully performed or satisfied before the closing. If certain pre-closing obligations require ongoing monitoring, implement appropriate post-closing reporting requirements."
+                },
+                {
+                    "description": "Materiality Thresholds: Many representations and warranties are qualified by materiality, potentially allowing for misrepresentations that are not deemed 'material'.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 3.4 Consents; Filings",
+                    "relevant_text": "(vi) any Filing or Consent, the failure of which to make or obtain would not reasonably be expected to be, individually or in the aggregate, material to the FS Development Platform and the Acquired Companies, taken as a whole.",
+                    "mitigation": "Attempt to define 'material' more specifically and negotiate for tighter materiality thresholds. Ensure thorough due diligence to uncover any potential issues, irrespective of their assessed materiality."
+                },
+                {
+                    "description": "Reliance on Disclosure Schedules: The accuracy of the representations and warranties depends heavily on the completeness and accuracy of the Seller Disclosure Schedule. ",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 3.5 Balance Sheet; Undisclosed Liabilities",
+                    "relevant_text": "(a) Section 3.5(a) of the Seller Disclosure Schedule sets forth a true and complete copy of the consolidated, unaudited, pro forma balance sheet (the \u201c Balance Sheet\u201d) of the Acquired Companies as of December 31, 2020 (the \u201c Balance Sheet Date\u201d).",
+                    "mitigation": "Conduct a thorough review of the Seller Disclosure Schedule with legal and financial experts. Include specific indemnification for discrepancies or omissions in the disclosure schedules. Establish a robust due diligence process to verify all disclosures."
+                },
+                {
+                    "description": "Limited Indemnification: Indemnification is subject to limitations and is not applicable to all risks, potentially leaving Buyer exposed to losses.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 7.2 Indemnification by Seller",
+                    "relevant_text": "From and after the Closing Date, Seller shall indemnify and hold harmless Buyer ... for and against all Losses ... to the extent arising out of, relating to or resulting from: (a) subject to Section 7.1(b), any breach by Seller of, or failure by Seller to comply with or perform, any covenant or agreement of Seller contained in this Agreement",
+                    "mitigation": "Negotiate for broader indemnification coverage, including specific areas of risk identified during due diligence.  Ensure clear definitions of 'Losses' and 'breach'. Consider including carve-outs to indemnification limitations for certain types of breaches, especially regarding taxes, financial statements or intellectual property. "
+                },
+                {
+                    "description": "Risk Related to ongoing compliance requirements and filings. There are various compliance items and filings that have requirements, which if not met can result in material impact",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 3.4 Consents; Filings",
+                    "relevant_text": "delivery and performance of this Agreement by Seller, the execution, delivery and performance by Seller and its Affiliates of the Ancillary Agreements or the Module Purchase Orders to which it is or will be a party, or the consummation of the Transactions or the transactions contemplated by the Ancillary Agreements or the Module Purchase Orders by Seller, does or will, require any Filing with or to, or to obtain any Consent from, any Governmental Authority, except: (i) as set forth on Section 3.4(b)(i) of the Seller Disclosure Schedule; (ii) the HSR Clearance and compliance with, and Filings under, the HSR Act; (iii) those Filings in respect of the FERC Approval; (iv) those Filings in respect of the CFIUS Clearance; (v) any Filing required by the Securities Act or the Exchange Act; and (vi) any Filing or Consent, the failure of which to make or obtain would not reasonably be expected to be, individually or in the aggregate, material to the FS Development Platform and the Acquired Companies, taken as a whole.",
+                    "mitigation": "Conduct thorough due diligence to identify all compliance requirements.  Ensure the Seller has a robust compliance reporting program. Require ongoing reporting of all filing and compliance activities, and include this requirement in the post-closing covenants."
+                },
+                {
+                    "description": "Requirement for prior written notice and opportunity to participate in discussions with governmental authorities may cause delays in decision making if not handled efficiently.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Section 5.2(d)",
+                    "relevant_text": "without giving the other (1) prior written notice of such meeting, conversation, discussion or negotiation; and (2) unless prohibited by such Governmental Authority, the opportunity to attend or participate therein.",
+                    "mitigation": "Establish clear internal protocols and timelines for providing notices and arranging participation in governmental authority discussions to avoid delays. Designate specific points of contact for each party to expedite communication."
+                },
+                {
+                    "description": "The need for consultation and cooperation in good faith could lead to disagreements and delays, particularly when dealing with sensitive issues and differing opinions.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Section 5.2(d)",
+                    "relevant_text": "Each of Buyer and Seller shall consult and cooperate with the other in good faith in connection with any ... analyses, appearances, presentations, memoranda, briefs, arguments, opinions and proposals made or submitted by or on behalf of such Party",
+                    "mitigation": "Define 'good faith' and 'cooperation' more specifically, potentially including a dispute resolution mechanism to address disagreements. Establish regular meetings to proactively manage any issues."
+                },
+                {
+                    "description": "Redaction rights related to valuation, contractual arrangements, and privilege could lead to information asymmetry hindering informed decision-making.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Section 5.2(d)",
+                    "relevant_text": "provided, however, that any materials and information provided by and among the Parties pursuant to this Section 5.2(d) may be redacted (I) to remove references concerning valuation, (II) as necessary to comply with contractual arrangements and (III) as necessary to address reasonable privilege concerns.",
+                    "mitigation": "Implement clear guidelines on permissible redactions, ensuring that essential information necessary for decision-making is not withheld. Include procedures for requesting clarification or supplementary information when needed."
+                },
+                {
+                    "description": "Requirement for prior written consent from the other party before any agreement with a Governmental Authority not to consummate the transaction can lead to delays and deadlock.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Section 5.2(d)",
+                    "relevant_text": "each Party shall not, and shall cause their respective Representatives not to, enter into any agreement with any Governmental Authority not to consummate the Transactions without the prior written consent of the other Party.",
+                    "mitigation": "Establish a clear process and timelines for obtaining written consent, with a mechanism for escalating disputes if consent is unreasonably withheld. Designate specific authorized representatives for each party to expedite this process."
+                },
+                {
+                    "description": "The party preparing the FERC application (Seller) needs to incorporate Buyer's review, which may lead to delays depending on the Buyer's turnaround time.",
+                    "severity": "LOW",
+                    "contract_section": "Section 5.2(e)",
+                    "relevant_text": "Seller shall prepare and provide to Buyer a draft of the Section 203 application within five (5) Business Days from the date of this Agreement, and after Buyer\u2019s review and comment, including Buyer\u2019s determination as to whether it or an Affiliate of Buyer will be a co-applicant, submit the application to FERC.",
+                    "mitigation": "Outline a clear timeline for the review and feedback process, and implement measures to facilitate quick review and feedback from the Buyer."
+                },
+                {
+                    "description": "Buyer's obligation to use 'reasonable best efforts' to eliminate impediments and enable closing, including making regulatory concessions, creates ambiguity.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Section 5.2(f)",
+                    "relevant_text": "Buyer shall, and shall cause Commodore US Holding Corporation and its Subsidiaries (the \u201c Restricted Group\u201d) to, use reasonable best efforts to take all actions necessary, proper or advisable to ... avoid or eliminate each and every impediment",
+                    "mitigation": "Define the concept of 'reasonable best efforts' further, potentially including specific factors to be considered, to reduce ambiguity and potential disputes. Establish a specific protocol for approving Regulatory Concessions and clarify circumstances under which Regulatory Concessions are not required"
+                },
+                {
+                    "description": "Exemption from Regulatory Concessions if it would result in a material adverse effect can lead to disagreements on what constitutes a 'material adverse effect'.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Section 5.2(f)",
+                    "relevant_text": "provided, however, that the provisions of this Section 5.2 shall not be construed to require (x) the undertaking of any Regulatory Concession, if the taking of such Regulatory Concession, (i) individually or in the aggregate, would reasonably be expected to result in a material adverse effect",
+                    "mitigation": "Clearly define or create criteria that define a 'material adverse effect' to avoid potential conflicts. Establish a formal process for assessing materiality, possibly involving a third-party expert if needed."
+                },
+                {
+                    "description": "Limitations on Regulatory Concessions for CFIUS clearance can lead to a deadlock if CFIUS demands significant concessions.",
+                    "severity": "HIGH",
+                    "contract_section": "Section 5.2(f)",
+                    "relevant_text": "...or (y) with respect to the CFIUS Clearance, the undertaking of (i) any Regulatory Concession set forth in clauses (1) or (2) of the definition thereof, or (ii) any Regulatory Concession set forth in clauses (3) or (4) of the definition thereof or any mitigation or other measure of Buyer or any other member within the Restricted Group, requested by CFIUS or to obtain the CFIUS Clearance, in each case of this clause (ii), other than de minimis",
+                    "mitigation": "Implement proactive strategies for CFIUS filings, including pre-filing discussions, and identify a mutually agreeable process should significant mitigation measures be required, potentially involving a cost-sharing or termination option, to handle significant requests from CFIUS"
+                }
+            ]
+        },
+        "sentiment": {
+            "count": 14,
+            "risks": [
+                {
+                    "description": "Broad definition of Material Adverse Effect (MAE) excludes several external factors, shifting risk to the buyer.",
+                    "severity": "HIGH",
+                    "contract_section": "Definitions",
+                    "relevant_text": "Material Adverse Effect means any effect, change, condition, circumstance, fact, development, occurrence or event that, individually or in the aggregate with all other effects...provided, however, that no effect, change...arising from or related to any of the following shall constitute a \u201cMaterial Adverse Effect\u201d... (a) changes in general economic conditions, (b) economic changes generally affecting the...electric generating industry... (c) any natural (including weather-related) or man-made disaster, epidemic, pandemic... (d) changes in general legal, regulatory or political conditions... (e) changes in GAAP... ",
+                    "mitigation": "Narrow the list of excluded events in the MAE definition. Attempt to include events like severe weather, pandemics, and major policy changes that directly impact the profitability of the projects as reasons for material adverse effect.  Consider adding carve-outs to these exclusions if they disproportionately affect the acquired assets."
+                },
+                {
+                    "description": "Exclusion of natural disasters, epidemics and pandemics from Material Adverse Effect definition.",
+                    "severity": "HIGH",
+                    "contract_section": "Definitions",
+                    "relevant_text": "provided, however, that no effect, change, condition, circumstance, fact, development, occurrence or event arising from or related to any of the following shall constitute a \u201cMaterial Adverse Effect\u201d... (c) any natural (including weather-related) or man-made disaster, epidemic, pandemic (including COVID-19)...",
+                    "mitigation": "Negotiate for specific language to allow for material adverse effect due to specific natural disasters above a certain threshold or major epidemic/pandemic impact on the ability to operate the projects.  Consider including a provision that allows a force majeure event to trigger a material adverse change under certain conditions."
+                },
+                {
+                    "description": "Exclusion of changes in law or accounting standards from Material Adverse Effect definition.",
+                    "severity": "MEDIUM",
+                    "contract_section": "Definitions",
+                    "relevant_text": "provided, however, that no effect, change, condition, circumstance, fact, development, occurrence or event arising from or related to any of the following shall constitute a \u201cMaterial Adverse Effect\u201d... (d) changes in general legal, regulatory or political conditions after the date hereof; (e) changes in GAAP, applicable Laws or any accounting requirements applicable to any industry in which the FS Development Platform operates...",
+                    "mitigation": "Include a threshold for changes in Law or GAAP that have a material financial impact on the projects that could trigger a MAE. This would allow for flexibility when there are substantial legal or accounting shifts and those changes cannot be anticipated and will have a detrimental effect on the projects."
+                },
+                {
+                    "description": "Broad definition of 'Laws' could create uncertainty and obligations",
+                    "severity": "MEDIUM",
+                    "contract_section": "Definitions",
+                    "relevant_text": "\u201cLaws\u201d means any laws (statutory, common or otherwise), constitutions, treaties, conventions, ordinances, codes, rules, regulations, Orders or other similar requirements enacted, adopted, promulgated or applied by a Governmental Authority.",
+                    "mitigation": "Clarify what 'Laws' specifically mean within the context of this PPA, and whether there are any regulations or permits that are specific to the projects and will need compliance. Specify governing law for the contract."
+                },
+                {
+                    "description": "Buyer's failure to close after conditions are met can trigger termination by Seller, but only if Seller is ready, willing, and able to close. This introduces risk for Seller that their ability to terminate is contingent on their own performance.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 8.1",
+                    "relevant_text": "provided, that, Seller shall not be entitled to terminate this Agreement under this Section 8.1(d) if Seller has failed to perform or comply with any of its covenants or agreements hereunder in any material respect, or if any of the representations or warranties of Seller herein has failed to be true and correct, which failure (x) would give rise to the failure of a condition in Section 6.2(a) or Section 6.2(b) and (y) has not been cured as of the date such written notice is received by Buyer, or (ii) (A) all of the conditions in Section 6.1 and Section 6.2 have been satisfied ... (B) Buyer shall have failed to consummate the Closing ... and (C) Seller stood ready, willing and able to consummate the Acquisition",
+                    "mitigation": "Seller should ensure meticulous compliance with all their obligations and representations under the agreement to preserve their termination rights. Document and confirm their readiness to close."
+                },
+                {
+                    "description": "Seller's ability to terminate due to a breach is limited to circumstances where the Buyer's breach is uncured and also if there are no uncured material breaches on the Seller's side. This conditionality introduces risk of complex claims and delays.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 8.1",
+                    "relevant_text": "provided, that, Seller shall not be entitled to terminate this Agreement under this Section 8.1(d) if Seller has failed to perform or comply with any of its covenants or agreements hereunder in any material respect, or if any of the representations or warranties of Seller herein has failed to be true and correct, which failure (x) would give rise to the failure of a condition in Section 6.2(a) or Section 6.2(b) and (y) has not been cured as of the date such written notice is received by Buyer,",
+                    "mitigation": "Seller should implement rigorous internal controls to ensure full compliance with all obligations and accurate representation in the contract."
+                },
+                {
+                    "description": "Termination results in the agreement being voided with no liability for either party, except for specific sections. This may limit the recourse for a party if termination occurs and there were damages incurred, it limits the financial protection for both Buyer and Seller.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 8.2",
+                    "relevant_text": "If this Agreement is terminated under Section 8.1, this Agreement shall become void and be of no force or effect, without any liability or obligation on the part of any Party",
+                    "mitigation": "Parties need to understand the limited financial implications of termination and should seek specific indemnity provisions for concerns not addressed here."
+                },
+                {
+                    "description": "Buyer has control over Tax Returns preparation post closing for pre-closing periods, but they need to be consistent with the past and provided to the Seller for approval. The Seller is then responsible to pay the related taxes. There is a potential risk of disputes about the methodology, and if Buyer does not get timely approval this could impact the Seller.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 9.7",
+                    "relevant_text": "provided, that to the extent such Tax Returns relate to a Pre-Closing Tax Period or the pre-Closing portion of a Straddle Period, such Tax Returns shall be prepared in a manner consistent with past practice ... and Buyer shall provide such Tax Returns to Seller for review and approval no less than thirty (30) days prior to the due date for timely filing of such Tax Returns, ... such approval not to be unreasonably withheld, conditioned or delayed.",
+                    "mitigation": "Seller should negotiate for clearly defined process of the Tax Return preparation and approval process. Also, the definition of 'past practice' needs to be clearly defined to prevent discrepancies."
+                },
+                {
+                    "description": "Buyer has limitations on post-closing tax actions, requiring written consent of seller for several items. This introduces a potential risk of delays or disputes if Seller doesn't provide timely or reasonable consent.",
+                    "severity": "LOW",
+                    "contract_section": "SECTION 9.8",
+                    "relevant_text": "Except as may be required by applicable Law or with the prior written consent of Seller (such consent not to be unreasonably withheld, conditioned or delayed), neither Buyer nor any Affiliate of Buyer shall (or shall cause or permit any Acquired Company to) (i) file any Tax Return ...",
+                    "mitigation": "Include a reasonable timeline for Seller's consent in the agreement, or a method to escalate if consent is unreasonably delayed."
+                },
+                {
+                    "description": "Both parties disclaim all representations and warranties outside those explicitly stated in the agreement. This introduces risk for both sides as they cannot later claim they relied on unwritten representations. Seller disclaims all projections, further reducing the liability for any inaccuracies.",
+                    "severity": "HIGH",
+                    "contract_section": "SECTION 10.1",
+                    "relevant_text": "Except for the representations and warranties expressly in Article IV, Seller acknowledges and agrees that none of Buyer or any of its Representatives ... make, or have made, any other express or implied representation or warranty whatsoever ... Except for Seller\u2019s representations and warranties expressly in Article III ... Seller disclaims any other express or implied representation or warranty whatsoever ... Buyer ... waives any and all rights, Claims and causes of action that Buyer may have against Seller with respect to any inaccuracy of any Projection.",
+                    "mitigation": "Thorough due diligence is absolutely necessary. Any critical information should be included as a formal representation or warranty. Parties should avoid reliance on any side conversations or documents that are not a part of the contract."
+                },
+                {
+                    "description": "Broad Release and Waiver of Claims: The contract contains a very broad mutual release of claims between Buyer and Seller, potentially limiting the Buyer's ability to seek recourse for issues discovered post-closing, except for specific carve-outs such as fraud.",
+                    "severity": "HIGH",
+                    "contract_section": "SECTION 10.2 Mutual Release",
+                    "relevant_text": "Buyer, on behalf of itself and its Subsidiaries ... hereby irrevocably and unconditionally releases and forever discharges Seller ... of and from, and irrevocably and unconditionally waives and relinquishes any rights, claims or remedies arising from or related to, any and all Claims... relating to... the FS Development Platform or the Acquired Companies or the Transactions.",
+                    "mitigation": "Negotiate for a narrower release, including specific carve-outs for issues that may arise post-closing, such as latent defects or breaches of specific warranties. Consider a limited escrow account for post-closing liabilities."
+                },
+                {
+                    "description": "Waiver of California Civil Code Section 1542: The explicit waiver of Section 1542 of the California Civil Code means Buyer is giving up the right to claim damages for issues that were unknown or unsuspected at the time of signing, which could be problematic if unknown issues arise post-closing.",
+                    "severity": "HIGH",
+                    "contract_section": "SECTION 10.2 Mutual Release",
+                    "relevant_text": "BUYER, ON BEHALF OF THE BUYER RELEASING PARTIES, HEREBY EXPRESSLY WAIVES THE PROVISIONS OF SECTION 1542 OF THE CALIFORNIA CIVIL CODE",
+                    "mitigation": "Resist the waiver of Section 1542 or ensure there is sufficient due diligence to reasonably uncover any potential issues before closing. Alternatively, seek specific indemnification clauses for specific potential risks."
+                },
+                {
+                    "description": "Limited Exceptions to the Release: The exceptions to the release are very narrow, limited to fraud and rights under certain surviving agreements, which could mean that other valid claims may be barred.",
+                    "severity": "MEDIUM",
+                    "contract_section": "SECTION 10.2 Mutual Release",
+                    "relevant_text": "Effective as of the Closing, except for any rights or remedies arising under the covenants and agreements ... or (ii) under any Ancillary Agreement, Module Purchase Order or Surviving Affiliate Contract, and except in the case of Fraud...",
+                    "mitigation": "Ensure that all significant post-closing obligations are specifically addressed in surviving agreements. Negotiate for a broader definition of \u2018Fraud\u2019 or more robust indemnification clauses."
+                },
+                {
+                    "description": "Requirement for joint coordination with Government Authorities: The requirement for the Buyer to coordinate with the Seller on communications with government authorities could delay or complicate dispute resolutions with such entities.",
+                    "severity": "MEDIUM",
+                    "contract_section": null,
+                    "relevant_text": "Each of Buyer and Seller shall consult and cooperate with the other in good faith in connection with any... and shall not independently participate in any meeting, or engage in any substantive conversation, discussion or negotiation, with any Governmental Authority... without giving the other (1) prior written notice of such meeting...",
+                    "mitigation": "Include language specifying that if the dispute is primarily between the buyer and governmental authority, then the buyer can proceed independently, with notice to the seller but without the seller's input. Define clear timelines for the seller to respond to any consultations. "
+                }
+            ]
+        }
+    }
+}
