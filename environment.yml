@@ -1,4 +1,4 @@
-name: ai-contract2
+name: ai-contract
 channels:
   - pytorch
   - conda-forge
@@ -247,4 +247,3 @@ dependencies:
       - tqdm==4.67.1
       - transformers==4.48.0
       - uritemplate==4.1.1
-prefix: /Users/jeremysantiago/miniconda3/envs/ai-contract2
